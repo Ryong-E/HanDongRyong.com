@@ -15,7 +15,7 @@ const PostCard = ({ posts }: { posts: GatsbyTypes.AllPostTemplateQuery['allMdx']
   return (
     <>
       {posts.map((post) => (
-        <Box overflow="hidden" maxW="sm" width="100%" height="200px">
+        <Box overflow="hidden" maxW="sm" width="100%" height="200px" key={post.frontmatter?.slug}>
           <Box p="6">
             <Box display="flex" alignItems="baseline">
               {post.frontmatter?.title}
