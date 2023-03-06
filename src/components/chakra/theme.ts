@@ -6,6 +6,9 @@ const styles = {
     body: {
       bg: mode('#ffffff', '#121212')(props),
     },
+    header: {
+      bg: mode('#ffffff', '#121212')(props),
+    },
   }),
 };
 
