@@ -1,19 +1,16 @@
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 
-const styles = {
-  global: (props: StyleFunctionProps) => ({
-    body: {
-      bg: mode('#ffffff', '#121212')(props),
+const style = {
+  colors: {
+    gray: {
+      800: '#121212',
     },
-    header: {
-      bg: mode('#ffffff', '#121212')(props),
-    },
-  }),
+  },
+  fonts: {
+    body: `'IBM Plex Sans KR'`,
+  },
 };
 
-const theme = extendTheme({
-  styles,
-});
-
+const theme = extendTheme(style);
 export default theme;
