@@ -13,6 +13,7 @@ const MainLayOut = ({ children }: { children: React.ReactNode }) => {
         flexDirection={'column'}
         alignItems="center"
         justifyContent={'center'}
+        fontWeight={500}
       >
         {children}
       </Box>

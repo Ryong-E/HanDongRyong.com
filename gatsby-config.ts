@@ -12,6 +12,17 @@ const config: GatsbyConfig = {
   plugins: [
     'gatsby-plugin-image',
     {
+      resolve: 'gatsby-plugin-google-fonts',
+      options: {
+        fonts: [
+          `Song+Myung\:400,700,900`,
+          `Gowun+Batang\:400,700`,
+          `IBM+Plex+Sans+KR\:100,200,300,400,500,600,700`,
+        ],
+        display: 'swap',
+      },
+    },
+    {
       resolve: 'gatsby-plugin-manifest',
       options: {
         icon: 'src/images/icon.png',
