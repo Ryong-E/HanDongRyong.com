@@ -1,4 +1,4 @@
-import { Box, Spacer, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Spacer } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import About from './About';
 import Logo from './Logo';
