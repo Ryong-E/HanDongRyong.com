@@ -1,6 +1,7 @@
 import { WrapPageElementBrowserArgs } from 'gatsby';
 import React from 'react';
 import Root from './src/components/Root';
+import './src/style/global.css';
 
 export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => {
   return <Root>{element}</Root>;
