@@ -1,17 +1,7 @@
 import { Badge, Box } from '@chakra-ui/react';
 import React from 'react';
 
-interface PostCardProps {
-  title: string;
-  createdAt: string;
-  slug: string;
-  description: string;
-  tags: readonly (string | null)[];
-  thumbnail: string;
-}
-
 const PostCard = ({ posts }: { posts: GatsbyTypes.AllPostTemplateQuery['allMdx']['nodes'] }) => {
-  console.log(posts);
   return (
     <>
       {posts.map((post) => (

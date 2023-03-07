@@ -33,6 +33,7 @@ const Header = () => {
       alignItems="center"
       display="flex"
       columnGap={4}
+      fontFamily="sans-serif"
     >
       <Logo />
       <Spacer />
