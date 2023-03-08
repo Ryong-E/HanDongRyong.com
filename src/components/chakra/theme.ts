@@ -8,7 +8,7 @@ const style = {
     },
   },
   fonts: {
-    body: `'IBM Plex Sans KR'`,
+    body: 'IBM Plex Sans KR',
   },
 };
 

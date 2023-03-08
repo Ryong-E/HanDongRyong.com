@@ -17,14 +17,6 @@ const config: GatsbyConfig = {
         icon: 'src/images/icon.png',
       },
     },
-    {
-      resolve: 'gatsby-plugin-web-font-loader',
-      options: {
-        google: {
-          families: ['IBM Plex Sans KR'],
-        },
-      },
-    },
     'gatsby-plugin-mdx',
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',

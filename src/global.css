@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'IBM Plex Sans KR';
+  font-weight: 700;
+  font-display: swap;
+  src: local('IBM Plex Sans KR'), url(/fonts/IBMPlexSansKR-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans KR';
+  font-weight: 500;
+  font-display: swap;
+  src: local('IBM Plex Sans KR'), url(/fonts/IBMPlexSansKR-Medium.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans KR';
+  font-weight: 300;
+  font-display: swap;
+  src: local('IBM Plex Sans KR'), url(/fonts/IBMPlexSansKR-Light.ttf) format('truetype');
+}
