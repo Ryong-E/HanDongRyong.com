@@ -8,10 +8,10 @@ const MainLayOut = ({ children }: { children: React.ReactNode }) => {
       <Header />
       <Box
         maxWidth={900}
-        margin="auto"
-        display="flex"
+        margin='auto'
+        display='flex'
         flexDirection={'column'}
-        alignItems="center"
+        alignItems='center'
         justifyContent={'center'}
         fontWeight={500}
       >

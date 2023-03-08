@@ -20,20 +20,19 @@ const Header = () => {
   }, []);
   return (
     <Box
-      overflow="hidden"
-      width="100%"
-      height="70px"
-      position="sticky"
-      zIndex="10"
+      overflow='hidden'
+      width='100%'
+      height='70px'
+      position='sticky'
+      zIndex='10'
       shadow={isSticky ? 'sm' : 'none'}
-      as="header"
-      top="0"
+      as='header'
+      top='0'
       paddingLeft={5}
       paddingRight={5}
-      alignItems="center"
-      display="flex"
+      alignItems='center'
+      display='flex'
       columnGap={4}
-      fontFamily="sans-serif"
     >
       <Logo />
       <Spacer />
