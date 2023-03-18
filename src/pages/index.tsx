@@ -2,11 +2,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { Box, Grid } from '@chakra-ui/react';
 import SeriesCard from 'components/card/SeriesCard';
 import MainLayOut from 'components/layout/MainLayOut';
-
-interface SeriesData {
-  totalCount: number;
-  tag: string;
-}
+import { SeriesData } from 'types';
 
 const IndexPage = () => {
   const SeriesData = useStaticQuery(graphql`

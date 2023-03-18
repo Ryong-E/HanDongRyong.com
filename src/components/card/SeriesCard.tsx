@@ -1,6 +1,6 @@
 import { Box, GridItem, Heading, Image, Text } from '@chakra-ui/react';
 import { Link } from 'gatsby';
-import { Color } from 'styles/color';
+import { SeriesBgColor } from 'styles/color';
 
 const SeriesCard = ({ count, tags }: { count: number; tags: string }) => {
   return (
@@ -63,7 +63,7 @@ const SeriesCard = ({ count, tags }: { count: number; tags: string }) => {
               md: 'auto',
               lg: 'auto',
             }}
-            backgroundColor={Color[tags]}
+            backgroundColor={SeriesBgColor[tags]}
             borderBottomLeftRadius={{
               sm: '0',
               md: '20px',
