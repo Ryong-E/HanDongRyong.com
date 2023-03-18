@@ -4,7 +4,7 @@ import React from 'react';
 function Moonicon() {
   return (
     <motion.img
-      src='../../../../MoonIcon.png'
+      src='https://kr.object.ncloudstorage.com/handongryong/MoonIcon.png'
       alt='moon'
       width={22}
       height={22}

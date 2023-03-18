@@ -8,7 +8,7 @@ const style = {
     },
   },
   fonts: {
-    body: 'IBM Plex Sans KR',
+    body: 'Pretendard',
   },
   breakpoints: {
     sm: '320px', // 320px ~ 768px

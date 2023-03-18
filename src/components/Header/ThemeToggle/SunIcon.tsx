@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 function SunIcon() {
   return (
     <motion.img
-      src='../../../../SunIcon.png'
+      src='https://kr.object.ncloudstorage.com/handongryong/SunIcon.png'
       alt='sun'
       width={22}
       height={22}
