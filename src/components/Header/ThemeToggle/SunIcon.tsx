@@ -3,8 +3,8 @@ import React from 'react';
 function SunIcon() {
   return (
     <motion.img
-      src="../../../../SunIcon.png"
-      alt="sun"
+      src='../../../../SunIcon.png'
+      alt='sun'
       width={22}
       height={22}
       initial={{ scale: 1.25, rotate: -45 }}

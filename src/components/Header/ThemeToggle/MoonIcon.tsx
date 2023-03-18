@@ -4,8 +4,8 @@ import React from 'react';
 function Moonicon() {
   return (
     <motion.img
-      src="../../../../MoonIcon.png"
-      alt="moon"
+      src='../../../../MoonIcon.png'
+      alt='moon'
       width={22}
       height={22}
       initial={{ scale: 1.25, rotate: -90 }}

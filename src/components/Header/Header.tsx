@@ -18,6 +18,7 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   return (
     <Box
       overflow='hidden'
@@ -33,6 +34,8 @@ const Header = () => {
       alignItems='center'
       display='flex'
       columnGap={4}
+      backgroundColor='white'
+      _dark={{ bg: 'gray.800' }}
     >
       <Logo />
       <Spacer />
