@@ -1,20 +1,15 @@
 import { Text } from '@chakra-ui/react';
 import { Link } from 'gatsby';
 import React, { useMemo } from 'react';
-import mobileCheck from '../../utils/mobileCheck';
 const Logo = () => {
-  const isMobile = useMemo(() => {
-    return mobileCheck();
-  }, []);
-
   return (
-    <Link to="/">
+    <Link to='/'>
       <Text
         fontSize={24}
-        fontWeight="700"
-        _hover={{ textDecoration: isMobile ? 'none' : 'underline' }}
+        fontWeight='700'
+        _hover={{ textDecoration: 'underline' }}
         padding={2}
-        fontStyle="italic"
+        fontStyle='italic'
       >
         Ryong⥾
       </Text>
