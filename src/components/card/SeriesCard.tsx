@@ -56,7 +56,7 @@ const SeriesCard = ({ count, tags }: { count: number; tags: string }) => {
             width={{
               lg: '100%',
               md: '100%',
-              sm: 'calc(100% - 126px)',
+              sm: 'calc(100% - 100px)',
             }}
             height={{
               sm: '100px',
