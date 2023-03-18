@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { Link } from 'gatsby';
-import React, { useMemo } from 'react';
+
 const Logo = () => {
   return (
     <Link to='/'>

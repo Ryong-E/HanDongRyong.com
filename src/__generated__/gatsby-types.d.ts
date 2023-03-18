@@ -2554,11 +2554,6 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
-type AllPostTemplateQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type AllPostTemplateQuery = { readonly allMdx: { readonly pageInfo: { readonly currentPage: number, readonly pageCount: number }, readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly thumbnail: string | null, readonly title: string | null, readonly updatedAt: string | null } | null }> } };
-
 type SeriesTemplateQueryVariables = Exact<{ [key: string]: never; }>;
 
 

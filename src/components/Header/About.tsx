@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import React, { useMemo } from 'react';
 
 const About = () => {
   return (
