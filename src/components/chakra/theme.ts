@@ -10,6 +10,11 @@ const style = {
   fonts: {
     body: 'IBM Plex Sans KR',
   },
+  breakpoints: {
+    sm: '320px', // 320px ~ 768px
+    md: '768px', // 768px ~ 960px
+    lg: '960px', // 960px ~
+  },
 };
 
 const theme = extendTheme(style);
