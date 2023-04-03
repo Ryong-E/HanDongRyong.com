@@ -32,15 +32,24 @@ const Header = () => {
       paddingLeft={5}
       paddingRight={5}
       alignItems='center'
+      justifyContent='center'
       display='flex'
-      columnGap={4}
       backgroundColor='white'
       _dark={{ bg: 'gray.800' }}
     >
-      <Logo />
-      <Spacer />
-      <About />
-      <ThemeToggle />
+      <Box
+        display='flex'
+        alignItems='center'
+        width='100%'
+        height='100%'
+        maxWidth='1100px'
+        columnGap={4}
+      >
+        <Logo />
+        <Spacer />
+        <About />
+        <ThemeToggle />
+      </Box>
     </Box>
   );
 };
