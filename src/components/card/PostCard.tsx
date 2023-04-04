@@ -1,9 +1,13 @@
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 import { FontColor } from 'styles/color';
-import { Article } from 'types';
+import { Post } from 'types';
 
-const PostCard = ({ article }: { article: Article }) => {
-  const { createdAt, description, title, thumbnail } = article;
+interface PostProps {
+  post: Post;
+}
+
+const PostCard = ({ post }: PostProps) => {
+  const { createdAt, description, title, thumbnail } = post;
   return (
     <Box
       display='flex'

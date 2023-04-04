@@ -44,7 +44,7 @@ const AllPostTemplate = ({ data }: { data: GatsbyTypes.AllPostTemplateQuery }) =
         gap={20}
       >
         {data.allMdx.nodes.map((data, i) => {
-          return <PostCard article={data?.frontmatter!} key={i} />;
+          return <PostCard post={data?.frontmatter!} key={i} />;
         })}
       </Box>
       {totalPageNumber > 1 && (
