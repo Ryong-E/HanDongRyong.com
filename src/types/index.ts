@@ -15,7 +15,7 @@ export interface SeriesData {
   tag: string;
 }
 
-export interface Article {
+export interface Post {
   description: string | null;
   title: string | null;
   thumbnail: string | null;
