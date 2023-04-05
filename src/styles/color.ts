@@ -5,3 +5,7 @@ export const SeriesBgColor: ColorType = {
   datastructure: '#0081C9',
   우아한테크코스: '#495579',
 };
+
+export const FontColor = {
+  artHeader: 'rgb(190,51,84)',
+} as const;
