@@ -2562,10 +2562,5 @@ type AllPostTemplateQueryVariables = Exact<{
 
 type AllPostTemplateQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly thumbnail: string | null, readonly title: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly slug: string | null } | null }>, readonly pageInfo: { readonly currentPage: number, readonly pageCount: number } } };
 
-type TestDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type TestDataQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly thumbnail: string | null, readonly title: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly slug: string | null } | null }> } };
-
 
 }
