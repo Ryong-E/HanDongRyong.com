@@ -1,0 +1,157 @@
+---
+slug: react-contextAPI-useReducer
+title: React Context API, useReducer로 전역 상태 관리 만들기
+description: 장바구니를 만들기위해 Context API와 useReducer를 이용하여 장바구니를 관리 할 수 있는 전역 상태 관리를 만들어보자
+thumbnail: 'https://kr.object.ncloudstorage.com/handongryong/context-useReducer.png'
+tags: ['react']
+createdAt: '2023/03/13'
+updatedAt: ''
+---
+
+# Context API
+
+- **Context**는 props드릴링을 줄이기 위해 사용합니다
+- **Context**를 사용하면 props로 넘겨주지 않아도 하위 트리의 모든 구성 요소에서 해당 값을 사용할 수 있어요
+
+# useReducer
+
+- useState와 비슷합니다 상태관리를 할 수 있어요
+- useState가 더 적은 코드를 작성하지만
+  많은 이벤트 핸들러를 통해 값을 수정하는 경우 코드를 줄이는데 useReducer가 적합할 수 있어요
+- useState는 상태 업데이트가 단순할 때 가독성이 좋지만 복잡해지면 어려울 수도 있어요
+  useReducer는 발생한 이벤트와 해당하는 로직을 명확하게 구분이 가능해요
+
+## Context 생성
+
+우선 Context를 만들기 위해 CreateContext를 이용하여 만들어 줍니다
+
+```js
+const TodoStateContext = createContext(null);
+const TodoDispatchContext = createContext(null);
+```
+
+State값을 관리할 Context와 dispatch함수를 관리할 Context 해서 두개의 ConText를 생성해줍니다
+
+## reducer 정의
+
+useReducer에서 사용할 reducer를 만들어주겠습니다
+
+```js
+todo = {
+  id: number,
+  content: string,
+  isComplete: boolean,
+};
+```
+
+```js
+function reducer((state,action)){
+	switch(action.type){
+      case 'ADD_TODO':
+        state.push(action.todo);
+        break;
+      case 'DELETE_TODO':
+        return state.filter(prev => prev.id !== action.todo.id)
+      default:
+        throw new Error('Unhandle Action')
+    }
+}
+```
+
+간단하게 todo추가와 삭제만 설정해두었습니다
+
+## Context.Provider
+
+이제 Context.Provider로 감싼 컴포넌트를 만들어볼께요
+
+```jsx
+function TodoProdiver({ children }) {
+  const [state, dispatch] = useReducer(reducer, []);
+
+  return (
+    <TodoStateContext.Provider value={state}>
+      {' '}
+      //value: 공유할 값을 넣어준다
+      <TodoDispatchContext.Provider value={dispatch}>{children}</TodoDispatchContext.Provider>
+    </TodoStateContext.Provider>
+  );
+}
+
+export default TodoProvider;
+
+export function useTodoState() {
+  const state = useContext(TodoStateContext);
+  if (!state) throw new Error('cannot find Provider');
+  return state;
+}
+
+export function useTodoDispatch() {
+  const dispatch = useContext(TodoDispatchContext);
+  if (!dispatch) throw new Error('cannot find Provider');
+  return dispatch;
+}
+```
+
+먼저 TodoProvider를 보시면
+useReducer를 사용하여 아까 만들어 두었던 reducer를 추가해주고,초기값은 []로 설정해주었습니다
+return에는 만들어 두었던 Context.Provider로 children감싸서 반환해줍니다
+
+useTodoState,useTodoDispatch를 통해 쉽게 state값과 dispatch함수를 가져올 수 있도록 만들어 두었습니다
+
+## 사용하기
+
+우선 Provier를 적용시켜줘야합니다 최상단 파일에서 만들어 두었던 TodoProvider를 감싸주시면 됩니다
+예로 App.jsx에 감싸보겠습니다
+
+```jsx
+import React from 'react';
+import Router from '../src/router';
+import TodoProvider from '../src/component';
+
+function App() {
+  return (
+    <TodoProvider>
+      <Router />
+    </TodoProvider>
+  );
+}
+
+export default App;
+```
+
+```jsx
+function TodoPage(){
+	const todoState = useTodoState()
+    const dispatch = useTodoDispatch()
+
+    const handleAddTodo = (todo) =>{
+    	dispatch({
+          type:'ADD_TODO',
+          todo:{
+	      id,
+          content,
+          isComplete
+          }
+        })
+    }
+
+    const handleDeleteTodo = (id) => {
+    	dispatch({
+          type:'DELETE_TODO',
+          todo:{
+            id,
+            content,
+            isComplete
+          }
+        })
+    }
+    return(
+      {todostate.map(todo => (
+       <div>
+         {todo.content}<button onClick={handleDeleteTodo}>삭제</button>
+       </div>))}
+    )
+}
+```
+
+이벤트마다 함수를 정의하고 dispatch에 type과 필요한 data를 넘겨주어 useReducer를 통해 state값을 변경할 수 있습니다
