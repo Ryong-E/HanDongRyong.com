@@ -9,6 +9,7 @@ const style = {
   },
   fonts: {
     body: 'Pretendard',
+    html: 'Pretendard',
   },
   breakpoints: {
     sm: '320px', // 320px ~ 768px

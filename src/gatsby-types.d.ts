@@ -2565,6 +2565,14 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
+type AllPostTemplateQueryVariables = Exact<{
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+}>;
+
+
+type AllPostTemplateQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly thumbnail: string | null, readonly title: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly slug: string | null } | null }>, readonly pageInfo: { readonly currentPage: number, readonly pageCount: number } } };
+
 type GatsbyImageSharpFixedFragment = { readonly base64: string | null, readonly width: number, readonly height: number, readonly src: string, readonly srcSet: string };
 
 type GatsbyImageSharpFixed_noBase64Fragment = { readonly width: number, readonly height: number, readonly src: string, readonly srcSet: string };
@@ -2591,10 +2599,12 @@ type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = { readonly tracedSVG: st
 
 type GatsbyImageSharpFluidLimitPresentationSizeFragment = { readonly maxHeight: number, readonly maxWidth: number };
 
-type SeriesTemplateQueryVariables = Exact<{ [key: string]: never; }>;
+type PostQueryVariables = Exact<{
+  id: InputMaybe<Scalars['String']>;
+}>;
 
 
-type SeriesTemplateQuery = { readonly allMdx: { readonly group: ReadonlyArray<{ readonly totalCount: number, readonly tag: string | null }> } };
+type PostQuery = { readonly mdx: { readonly id: string, readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly thumbnail: string | null, readonly title: string | null, readonly updatedAt: string | null } | null } | null };
 
 
 }

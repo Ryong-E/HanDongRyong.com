@@ -14,3 +14,12 @@ export interface SeriesData {
   totalCount: number;
   tag: string;
 }
+
+export interface Post {
+  description: string | null;
+  title: string | null;
+  thumbnail: string | null;
+  createdAt: string | null;
+  slug: string | null;
+  tags: readonly (string | null)[] | null;
+}
