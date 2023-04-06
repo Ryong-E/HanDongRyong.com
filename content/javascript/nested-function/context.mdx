@@ -1,0 +1,205 @@
+---
+slug: nested-function
+title: 함수의 중첩(currying, pipe, go)
+description: 함수의 중첩은 무엇일까 currying,pipe,go에 대해 알아보자
+thumbnail: https://kr.object.ncloudstorage.com/handongryong/nested-function.png
+tags: ['javascript']
+createdAt: '2023/02/14'
+updatedAt: ''
+---
+
+# go
+
+> a(b,c(d,e()))
+
+위와 같이 함수가 연속으로 중첩되어 가독성이 매우 떨어진다, 작성하기도 이해하기도 어렵다.
+이를 간편하고 읽기 쉽게 코드를 짜기 위해 go함수를 사용할 수 있다
+
+go함수는 먼저 다음과 같이 생겼다
+
+```js
+const go = (...args) => args.reduce((prev,current) => current(prev)
+```
+
+go 함수는 인자를 받아 결과를 바로 산출해내는 함수이다,
+첫번째인자는 초기값으로 설정하고, 나머지 함수들은 첫 번째 인자가 두번째 함수로 가서 결과를 만들고 이 결과가 세번째 함수로가서 결과를 만드는 순으로 진행이 된다. 이러한 go함수는 reduce로 쉽게 구현이 가능하다
+
+```js
+const go = (...args) => args.reduce((prev,current) => current(prev)
+
+go(
+	0,
+	a=> a + 1,
+	a=> a+ 10,
+	a=> a + 100,
+	console.log
+) // 111
+```
+
+# pipe
+
+pipe는 함수를 리턴하는 함수로 인자로 함수를 받아 그 함수들을 합성해 하나의 함수를 리턴하게된다.
+
+> go함수와 비슷해보인다?
+> 하지만 둘은 다르다
+> go함수는 인자로 받은 함수를 모두 실행시키지만
+> pipe는 함수들을 모두 합쳐 합성 함수를 리턴한다
+
+```js
+const pipe =
+  (...funcs) =>
+  (args) =>
+    funcs.reduce((prev, current) => current(prev), args);
+
+const combineFunc = pipe(
+  (a) => a + 1,
+  (a) => a + 10,
+  (a) => a + 100,
+);
+console.log(combineFunc(0)); /// 111
+```
+
+pipe의 실행 순서
+
+1. pipe 함수 실행시 함수를 리턴한다
+   `(args) => funcs.reduce((a,f) => f(a),args)`
+2. 반환되는 함수는 args 인자를 받는 함수이고 첫번째로 실행할 때 받았던 funcs를 reduce로 돌면서 합친다 이때 초기값은 args값으로 설정한다
+
+# go를 사용한 읽기 쉬운 코드
+
+상품의 가격을 1000원씩 인상하고 금액을 총합하는 경우이다
+
+```js
+const go = (...args) => args.reduce((a, f) => f(a));
+
+const product = [
+  { name: 'table', price: 10000 },
+  { name: 'keyboard', price: 20000 },
+  { name: 'mouse', price: 30000 },
+  { name: 'phone', price: 40000 },
+];
+
+console.log(product.map((pdt) => pdt.price1000).reduce((total, current) => total + current));
+```
+
+해당 결과값을 얻는 부분을 바꿔보자
+
+```js
+go(
+  product,
+  (product) => product.map((p) => p.price + 1000),
+  (product) => product.reduce((add, price) => add + price),
+  console.log,
+); // 104000
+```
+
+# currying
+
+가장 어려웠던 함수였다
+
+커링은 함수형 프로그래밍 기법 중 하나로 함수를 재사용하는데 유용하게 쓸 수 있는 기법이다
+
+어떤식인지 한 번 살펴보자
+
+```js
+function volume(l, w, h) {
+  return l * w * h;
+}
+
+const curried = curry(volume);
+
+curried(1)(2)(3); // 6
+```
+
+커링함수를 만들 때는 고차함수와 클로저에 대한 개념이 많이 필요했다
+
+커리 함수를 만들어보자
+
+```js
+function curry(fn) {
+  const arity = fn.length;
+}
+```
+
+curry는 인자로 함수를 받아야한다
+인자로 받은 함수의 인자 갯수를 알아야 하기때문에
+`length` 프로퍼티로 함수가 몇개의 인자를 받아야하는지 확인 할 수 있다
+arity라는 변수에 저장해준다
+
+매번 curry된 함수를 호출할 때 마다 새로운 인자를 배열에 넣어 클로저 내에 저장해야한다.
+그 배열에있는 인자 수는 원해 함수에서 기대했던 인자 수와 동일해야 하며, 그 이후에 호출 가능해야한다
+다르다면 새로운 함수를 반환한다
+
+```js
+function curry(fn) {
+  const arity = fn.length;
+  return (function resolve() {
+    const memory = Array.prototype.slice.call(arguments);
+    // 지금 까지 받은 인자를 복사
+    return function () {
+      const local = memory.slice();
+      // memory를 복사
+      Array.prototype.push.apply(local, arguments);
+      // 반환된 함수에 넣은 인자를 local에 추가한다
+      const nextFn = local.length >= arity ? fn : resolve;
+      // local의 길이가 arity와 크거나 같다면 fn 아니면 resolve
+      return nextFn.apply(null, local);
+      // 위에서 받은 함수에 local배열을 담아 실행 시킨다
+    };
+  })();
+}
+```
+
+해당 currying을 차근차근 실행 해보자
+
+```js
+function volume(l, w, h) {
+  return l * w * h;
+}
+
+const curried = curry(volume);
+```
+
+curry함수에 volumn이라는 함수가 들어오고
+arity에는 3이라는 숫자가 할당이 된다
+즉시 실행함수로 resolve함수가 실행이 되고
+memory에는 아직 넣은 값이 없기 때문에 빈 배열이다
+그리고 반환값으로 함수를 내보낸다
+
+```js
+function volume(l, w, h) {
+  return l * w * h;
+}
+
+const curried = curry(volume);
+
+curried(1);
+```
+
+반환되었던 함수에 1을 넣어 실행을 하게되면
+local이라는 변수에 아까 빈배열이였던 memory를 복사하게 된다
+그리고 1이라는 인자값이 들어왔기때문에 해당 값을 local에 push하게 된다
+local의 길이는 현재 1이기 때문에 arity 보다 작아 resolve를 nextFn에 할당한다
+반환값으로 nextFn에 아까 인자값을 담아둔 local을 넣어 실행시킨다
+현재의 경우 resolve함수가 실행된다
+resolve함수에 arguments로 들어온 값들을 memory에 저장 후
+함수를 다시 리턴한다
+
+```js
+function volume(l, w, h) {
+  return l * w * h;
+}
+
+const curried = curry(volume);
+
+curried(1)(2)(3);
+```
+
+위와 같은 과정을 거친뒤
+local의 길이가 arity와 크거나 같다면 처음에 받았던 함수에 local을 넣어 실행시킨다
+
+```js
+function volume(1,2,3){
+	return 1 * 2 * 3
+}
+```
