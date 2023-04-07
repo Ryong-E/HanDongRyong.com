@@ -1,6 +1,7 @@
-import { Box, Heading, Image, Link, Text } from '@chakra-ui/react';
+import { Box, Heading, Image, Text } from '@chakra-ui/react';
 import { FontColor } from 'styles/color';
 import { Post } from 'types';
+import { Link } from 'gatsby';
 
 interface PostProps {
   post: Post;
@@ -9,12 +10,7 @@ interface PostProps {
 const PostCard = ({ post }: PostProps) => {
   const { slug, createdAt, description, title, thumbnail } = post;
   return (
-    <Link
-      href={`/post/${slug}`}
-      textDecoration='none'
-      width='100%'
-      _hover={{ textDecoration: 'none' }}
-    >
+    <Link to={`/post/${slug}`} style={{ width: '100%' }}>
       <Box
         display='flex'
         flexDirection={{ sm: 'column', md: 'row', lg: 'row' }}

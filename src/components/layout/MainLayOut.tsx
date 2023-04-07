@@ -4,7 +4,9 @@ import Header from '../Header/Header';
 
 const MainLayOut = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
-    window.scroll(0, 0);
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0);
+    });
   }, []);
   return (
     <>

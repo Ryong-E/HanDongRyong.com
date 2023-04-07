@@ -3,9 +3,6 @@ import Header from 'components/Header/Header';
 import { useEffect } from 'react';
 
 const PostLayout = ({ children }: { children: React.ReactNode }) => {
-  useEffect(() => {
-    window.scroll(0, 0);
-  }, []);
   return (
     <>
       <Header />
