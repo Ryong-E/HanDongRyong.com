@@ -10,7 +10,7 @@ const PostCard = ({ post }: PostProps) => {
   const { slug, createdAt, description, title, thumbnail } = post;
   return (
     <Link
-      href={`post/${slug}`}
+      href={`/post/${slug}`}
       textDecoration='none'
       width='100%'
       _hover={{ textDecoration: 'none' }}
