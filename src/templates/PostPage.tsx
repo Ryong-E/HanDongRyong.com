@@ -26,7 +26,6 @@ const components = {
   h2: (props: Object) => <Heading as='h2' fontSize='32px' mt='60px' mb='15px' {...props}></Heading>,
   h3: (props: Object) => <Heading as='h3' fontSize='26px' mt='60px' mb='15px' {...props}></Heading>,
   h4: (props: Object) => <Heading as='h4' fontSize='22px' mt='60px' mb='15px' {...props}></Heading>,
-
   img: (props: Object) => <Image {...props} width='100%' />,
   hr: (props: Object) => (
     <Text as='hr' mt='20px' mb='20px' {...props} borderTop='2px solid #e2e2e2e2' />

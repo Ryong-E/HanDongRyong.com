@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Link } from '@chakra-ui/react';
+import { Center, Flex, Link } from '@chakra-ui/react';
 
 const Pagenation = ({
   currentPage,

@@ -1,5 +1,5 @@
 import { Box, Spacer } from '@chakra-ui/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import About from './About';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle/ThemeToggle';

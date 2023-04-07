@@ -1,6 +1,6 @@
-const path = require('path');
-const AllPostTemplate = path.resolve('./src/templates/AllPostTemplate.tsx');
-const PostPage = path.resolve('./src/templates/PostPage.tsx');
+const { resolve } = require('path');
+const AllPostTemplate = resolve('./src/templates/AllPostTemplate.tsx');
+const PostPage = resolve('./src/templates/PostPage.tsx');
 
 exports.onCreateBabelConfig = ({ actions }) => {
   actions.setBabelPlugin({
