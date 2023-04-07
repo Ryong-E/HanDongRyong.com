@@ -1,7 +1,11 @@
 import { Box } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import Header from '../Header/Header';
 
 const MainLayOut = ({ children }: { children: React.ReactNode }) => {
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
   return (
     <>
       <Header />
