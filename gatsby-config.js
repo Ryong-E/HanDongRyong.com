@@ -1,13 +1,18 @@
-import type { GatsbyConfig } from 'gatsby';
+const wrapESMPlugin = (name) =>
+  function wrapESM(opts) {
+    return async (...args) => {
+      const mod = await import(name);
+      const plugin = mod.default(opts);
+      return plugin(...args);
+    };
+  };
 
-const config: GatsbyConfig = {
+module.exports = {
   siteMetadata: {
     title: `handongryong`,
-    siteUrl: `https://www.handongryong.com`,
+    description: '주니어 프론트엔드 개발자 한동룡입니다',
+    siteUrl: `https://handongryong.com`,
   },
-  // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
-  // If you use VSCode you can also use the GraphQL plugin
-  // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
     'gatsby-plugin-image',
@@ -17,18 +22,20 @@ const config: GatsbyConfig = {
         icon: 'src/images/icon.png',
       },
     },
-    'gatsby-plugin-mdx',
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        mdxOptions: {
+          rehypePlugins: [
+            wrapESMPlugin(`rehype-slug`),
+            [wrapESMPlugin(`rehype-autolink-headings`), { behavior: `after` }],
+          ],
+        },
+      },
+    },
     'gatsby-plugin-sharp',
     'gatsby-plugin-root-import',
     'gatsby-transformer-sharp',
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'images',
-        path: './src/images/',
-      },
-      __key: 'images',
-    },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -54,5 +61,3 @@ const config: GatsbyConfig = {
     },
   ],
 };
-
-export default config;
