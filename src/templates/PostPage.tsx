@@ -81,7 +81,7 @@ const PostPage = ({ data, children }: { data: any; children: React.ReactNode }) 
   const tableOfContents = data.mdx.tableOfContents;
   return (
     <PostLayout>
-      <Box as='article' width='100%' paddingBottom='300px'>
+      <Box as='article' width='100%' minWidth={{ sm: '0', xl: '700px' }} paddingBottom='300px'>
         <Image src={thumbnail} htmlWidth='100%' borderRadius='10px' />
         <MDXProvider components={components}>{children}</MDXProvider>
       </Box>
