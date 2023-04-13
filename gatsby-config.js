@@ -67,5 +67,12 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: 'gatsby-plugin-gtag',
+      options: {
+        trackingId: 'G-CLPTY6DFH3',
+        head: true,
+      },
+    },
   ],
 };
