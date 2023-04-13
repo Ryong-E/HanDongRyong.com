@@ -36,6 +36,7 @@ const components = {
   h4: (props: Object) => (
     <Heading as='h4' fontSize='22px' mt='60px' pt='70px' mb='15px' {...props}></Heading>
   ),
+  p: (props: Object) => <Text fontSize='18px' {...props}></Text>,
   img: (props: Object) => <Image {...props} width='100%' />,
   hr: (props: Object) => (
     <Text as='hr' mt='20px' mb='20px' {...props} borderTop='2px solid #e2e2e2e2' />
@@ -82,7 +83,7 @@ const PostPage = ({ data, children }: { data: any; children: React.ReactNode }) 
   return (
     <PostLayout>
       <Box as='article' width='100%' minWidth={{ sm: '0', xl: '700px' }} paddingBottom='300px'>
-        <Image src={thumbnail} htmlWidth='100%' borderRadius='10px' />
+        <Image src={thumbnail} htmlWidth='100%' borderRadius='10px' marginBottom='100px' />
         <MDXProvider components={components}>{children}</MDXProvider>
       </Box>
       <Box as='nav' width='300px' marginLeft='100px' display={{ sm: 'none', xl: 'block' }}>
