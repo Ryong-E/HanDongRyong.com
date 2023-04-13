@@ -1,0 +1,146 @@
+---
+slug: prototype
+title: 자바스크립트의 Prototype과 상속 개념 구현
+description: Prototype이 무엇인지 객체지향의 상속 개념을 자바스크립트에서는 어떻게 구현했는지 알아보기
+thumbnail: 'https://kr.object.ncloudstorage.com/handongryong/prototype.png'
+tags: ['javascript']
+createdAt: '2023/04/13'
+updatedAt: ''
+---
+
+자바스크립트는 프로토타입 기반 언어이기 때문에 프로토타입이 무엇이고 객체지향을 어떻게 구현했는지 알아보려합니다
+
+우선자바스크립트는 명령형, 함수형, 프로토타입 기반 객체지향 프로그래밍을 지원하는 멀티 패러다임 프로그래밍 언어입니다
+그런데 자바스크립트는 클래스 기반 객체지향 프로그래밍 언어가 아니라고 오해를 하고는 합니다
+하지만 자바스크립트는 클래스 기반 객체지향 프로그래밍 언어보다 효율적이고 더 강력한 객체지향 프로그래밍 능력을 지닌 프로토타입 기반의 객체지향 프로그래밍 언어입니다
+
+# 상속을 어떻게 구현을 할까
+
+상속은 객체지향 프로그래밍의 핵심 개념입니다. 어떤 객체의 프로퍼티 또는 메서드를 다른 객체가 상속받아 그대로 사용할 수 있는 것을 말하죠
+자바스크립트는 프로토타입을 기반으로 상속을 구현하여 불필요한 중복을 제거합니다, 중복을 제거하는 방법은 기존의 코드를 적극적으로 재사용하는 것 입니다
+
+다음 예시를 보겠습니다
+
+```js
+function Circle(radius) {
+  this.radius = radius;
+  this.getArea = function () {
+    return Math.PI * this.radius ** 2;
+  };
+}
+
+const circle1 = new Circle(1);
+const circle2 = new Circle(2);
+```
+
+코드는 반지름을 초기값으로 넣고 메서드를 통해 넓이를 구하는 코드입니다
+
+넓이를 구하는 공식은 동일합니다
+하지만 이렇게 인스턴스를 생성하게 되면 넓이를 구하는 메서드드는 중복으로 생성됩니다
+
+`console.log(circle1.getArea === circle2.getArea)`은 false가 나오게 되죠
+
+이것은 옳지 않고 하나만 생성해서 모든 인스턴스가 공유받아야합니다
+
+프로토타입을 이용해서 같은 코드를 작성해보겠습니다
+
+```js
+function Circle(radius) {
+  this.radius = radius;
+}
+Circle.prototype.getArea = function () {
+  return Math.PI * this.radius ** 2;
+};
+
+const circle1 = new Circle(1);
+const circle2 = new Circle(2);
+```
+
+이렇게 코드를 작성하게되면
+circle1과 circle2의 getArea메서드는 동일한 메서드를 제공받게 됩니다
+
+Circle 생성자 함수가 생성한 모든 인스턴스는 자신의 프로토타입,즉 상위 객체 역할을 하는 Circle.prototype의 모든 프로퍼티와 메서드를 상속받게 되죠
+
+## 프로토타입 체인
+
+만약 객체의 프로퍼티에 접근하려는 프로퍼티가 없다면 [[Prototype]] 내부 슬롯의 참조를 따라 자신의 부모 역할을 하는 프로토타입의 프로퍼티를 순차적으로 검색하는 프로토타입 체인 이라고 합니다
+
+프로토타입 체인은 자바스크립트가 객체지향 프로그래밍의 상속을 구현하는 매커니즘입니다
+
+# 프로토타입은 무엇인가요
+
+프로토타입은 객체 간 상속을 구현하기 위해 사용됩니다
+프로토타입을 상속받은 하위 객체는 상위 객체의 프로퍼티를 자신의 프로퍼티처럼 사용할 수 있습니다
+
+모든 객체는 [[Prototype]] 이라는 내부 슬롯을 가지며, 내부 슬롯의 값은 프로토타입의 참조입니다
+[[Prototype]]에 저장되는 값은 객체 생성 방식에 의해 결정됩니다. 객체가 생성될 때 객체 생성 방식에 따라 프로토타입이 결정되고 저장됩니다
+
+## \_\_proto\_\_
+
+[[Prototype]]에는 직접 접근 할 수 없지만 `__proto__`접근자 프로퍼티를 통해 자신의 프로토타입에 간접적으로 접근할 수 있습니다
+그리고 프로토타입은 자신의 constructor 프로퍼티를 통해 생성자 함수에 접근할 수 있고, 생성자 함수는 자신의 prototype 프로퍼티를 통해 프로토 타입에 접근할 수 있습니다
+
+### 왜 proto로 프로토타입에 접근하나요?
+
+`__proto__`를 통해 접근하는 이유는 상호 참조에 의해 프로토타입 체인이 생성되는 것을 방지하기 위해서입니다
+
+다음 예제를 보겠습니다
+
+```js
+const parent = {};
+const child = {};
+
+parent.__proto__ = child;
+child.__proto__ = parent;
+```
+
+parent의 프로토타입을 child로 child의 프로토타입은 parent로 변경했습니다
+이렇게 프로토타입을 설정하게 되면 서로가 자신의 프로토타입이 되기 때문에 비정상적인 프로토타입 체인이 만들어지게 되고 프로토타입의 종점을 찾을 수 없기 때문에 무한 루프에 빠지게 됩니다
+
+프로토타입 체인은 단방향 링크드 리스트로 구현되어야합니다
+프로퍼티 검색 방향이 한쪽 방향으로만 흘러가야 한다는 뜻이죠
+
+따라서 아무런 체크없이 프로토타입을 교체할 수 없도록 `__proto__`접근자를 통해 프로토타입에 접근하고 교체하도록 구현되어있습니다
+
+하지만 `__proto__`접근자를 코드내에서 직접 사용은 권장되지 않습니다
+
+모든 객체가 사용할 수 있는 것은 아니기 때문입니다
+
+`__proto__`접근자를 사용하는 대신
+
+프로토타입 참조를 얻고 싶을 떄는 Object.getPrototypeOf를 사용하고
+
+프로토타입 변경을 하고 싶을 떄는 Object.setPrototypeOf를 사용하면 됩니다
+
+# prototype과 \_\_proto\_\_의 차이점은 무엇인가요
+
+우선 prototype은 함수 객체만이 가지고 있는 프로퍼티입니다
+
+![prototype relationship](./relationship.png)
+
+함수를 생성하게 되면 함수 객체만 생성되는 것이 아니라 prototype객체도 같이 생성됩니다 함수의prototype프로퍼티가 같이 생성된 prototype객체를 바라보고 있으며 서로 알고있는 상태가 됩니다
+
+생성자 함수로써 호출 할 수 없는 함수 non-constructor인 화살표 함수와 메서드 축약으로 정의한 메서드는 prototype프로퍼티를 소유하지 않고 프로토타입도 생성하지 않습니다
+
+- prototype<br/> 생성자 함수가 자신이 생성할 객체의 프로토타입을 할당하기 위해 사용됩니다
+- `__proto__`<br/>객체가 자신의 프로토타입에 접근 또는 교체하기 위해 사용됩니다
+
+# instanceOf 연산자란
+
+우변의 생성자 함수의 prototype에 바인딩된 객체가 좌변의 객체의 프로토타입 체인 상에 존재하면 true로 평가되고 그렇지 않다면 false로 평가 됩니다
+
+```js
+function Person(name) {
+  this.name = name;
+}
+
+const me = new Person('lee');
+
+console.log(me instanceof Person); //true
+
+const parent = {};
+
+Object.setPrototypeOf(me, parent);
+
+console.log(me instanceof Person); // false
+```
