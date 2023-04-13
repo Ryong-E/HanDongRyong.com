@@ -25,6 +25,14 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 700,
+            },
+          },
+        ],
         mdxOptions: {
           rehypePlugins: [
             wrapESMPlugin(`rehype-slug`),
