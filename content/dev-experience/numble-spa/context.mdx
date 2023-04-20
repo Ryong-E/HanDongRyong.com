@@ -1,0 +1,304 @@
+---
+slug: numble-spa
+title: 넘블 새해인사 사이트 제작하기
+description: VanillaJS만을 이용하여 SPA 새해인사 사이트 페이지 개발하기
+thumbnail: https://kr.object.ncloudstorage.com/handongryong/numble-spa.png
+tags: ['devExprience']
+createdAt: '2023/01/19'
+updatedAt: ''
+---
+
+넘블이라는 서비스를 접하게 되었습니다
+바닐라 자바스크립트로만 구현해야하는 SPA사이트 만들기에 참여하게 되었다
+
+### 넘블 챌린지 간단 소개
+
+- 총 2주간 이루어진다
+- 가이드 라인을 통해 챌린지 진행에 필요한 와이어프레임과 백엔드 API를 제공한다
+- 상태관리 라이브러리는 사용불가하며, 바닥부터 만들어보는 챌린지이다
+- 네카라쿠배 기업 재직중인 3년차 현직자가 TOP3에게 세부 코드리뷰를 제공하고
+  상위권 결과물 및 세부 코드 리뷰는 참가자 모두에게 공유 된다
+
+오늘까지 공부해 오면서 가장 중요하게 생각하는 점은 기초라고 생각이되었었는데
+마침 이러한 챌린지가 있어서 돈을 지불하고 바로 참여하게 되었습니다
+
+---
+
+### express
+
+정적 파일 제공을 위해서 express 사용이 가능하여 간단하게 작성했습니다
+![](https://velog.velcdn.com/images/ryong-e/post/4dd7c0d3-c204-4686-81f4-62396a30bed7/image.png)
+
+### 네이버 클라우드
+
+넘블에서 네이버 클라우드를 지원하여 사용하게 되었습니다
+네이버 클라우드에 기본 가이드가 있어 가이드 대로 서버를 생성하였습니다
+이후에 무중단 배포를 위해 pm2를 설치하였고
+포트 리다이렉트를 하기위해 nginx를 설치하였습니다
+
+root 폴더 변경을 이해
+
+```shell
+sudo nano /etc/nginx/sites-available/default
+```
+
+설정에 들어가서
+빌드한 폴더 위치를 복사해와
+
+```shell
+root /var/www/html;    이부분을 찾아  오른쪽 /에 붙여준다
+```
+
+```shell
+ location/ 부분을 찾아
+proxy_pass http://localhost:3000/;
+```
+
+을 해주게 되면 자동으로 3000번으로 리다이렉트 해주게 됩니다 띄어쓰기나 끝에 ;를 붙이지 않으면 오류가 나니 신경써서 해야합니다
+**이대로 서버에 접속시에 not found 에러가 발생했습니다.**
+
+> root,index,try_files를 주석을 하지 않았을 때 not found가 뜨게됩니다
+> try_files는 리액트 빌드한 파일을 서빙할 떄 설정해주는 것 입니다
+> 나머지 두 부분은 찾아보고 수정하도록하겠습니다
+
+네이버 클라우드에서 ACG에서 80포트를 개방하고 공인IP로 접근시 기본 포트 값인 80번으로 들어오게 되면 nginx가 3000번 포트로 연결해주게 됩니다
+
+# 로직
+
+라우팅을 직접 해본적이 없어서 검색해 본 결과 history API를 이용해 하는 방법과
+hash를 이용해서 하는 방법이 있었습니다.
+리액트에서 router가 history로 개발되었다고 들어서 history로 개발하기로 하였습니다.
+
+index.js
+![](https://velog.velcdn.com/images/ryong-e/post/342942b9-3f7b-494d-8b10-8e141b8484cc/image.png)
+
+popstate이벤트를 통해 뒤로가기나 앞으로가기가 일어났을때 router를 실행시켜 해당 url에 맞는 화면을 렌더링 해주었습니다.
+
+처음에 DOMContnetLoaded 이벤트를 통해 router()를 실행 시켜 Homepage를 보여주고
+nav에 있는 링크들에 이벤트를 적용시키기 위해 body에 click이벤트를 넣어주었습니다
+다 클릭시에 class명이 nav-link(nav에 있는 a태그)라면 기존 a태그 이벤트는 막고 history API를 이용해 a태그에 있는 href주소로 URL을 변경후 변경 한 URL에 맞는 화면을 보여주도록 다시 router()함수를 실행해주는식으로 구성하였습니다.
+
+## router
+
+![](https://velog.velcdn.com/images/ryong-e/post/914789b2-8536-4957-969a-455843f06080/image.png)
+
+router 실행 시 routes를 map을 돌며 isMatch라는 새로운 값을 추가해줍니다
+현재 url과 routes의 path와 일치한다면 true를 불일치한다면 false를 입력해줍니다
+isMatch를 추가한 새로운 배열에서 true인 값인 element만 가져옵니다
+만약 존재하지 않는다면 NotFoundPage를 생성해주고 nav와 생성한 NotFoundPage의 render매서드를 실행해줍니다.
+isMatch가 true인 값을 찾게되었다면 해당 객체의 element의 값을(HomePage,WritePage..)생성해준뒤
+nav를 추가해주고 생성한 페이지의 render매서드를 실행해주는 식으로 router를 구성하였습니다.
+
+## Pages
+
+> document.querySelector 사용할 일이많아 함수를 작성해주었습니다.
+
+![](https://velog.velcdn.com/images/ryong-e/post/c0cbb553-3984-4863-b35e-a307f2ef5ee1/image.png)
+
+**HomePage**
+
+![](https://velog.velcdn.com/images/ryong-e/post/0482aa5b-33b1-4f08-a027-55f5be199c69/image.png)
+
+HomePage입니다
+router에서 실행시키는 render매서드부터 보시면
+보여줘야할 posts들을 제공하는 api로 axios를 통해 요청을 보내 값을 가져온뒤
+html태그로 값들을 집어넣어 posts라는 변수에 저장해줍니다.
+await을 사용하여 해당 로직이 완료되어야만 innerHTML로 넣어주게됩니다
+
+axios는 기존 fetch보다 간결하게 사용이 가능하여 적용하게 되었습니다.
+
+---
+
+**WritePage**
+![](https://velog.velcdn.com/images/ryong-e/post/ed529a14-956d-4b0c-9ce7-90844a85a0b9/image.png)
+
+글 작성페이지인 WritePage입니다
+모든 페이지들이 innerHTML로 넣어야만 id,class이 검색이 가능하기 때문에
+eventListner들을 이후에 적용시켜주었습니다.
+이미지 업로드의 경우 현재는 클릭시에 랜덤이미지가 추가되는 형식입니다.
+aws-sdk로 업로드 하려고 했지만 시간이 부족해서 하지못했습니다
+
+등록하기 버튼의 경우 이미지와,제목,내용등이 모두 입력이 되어야지만 제출가능하도록 하였습니다.
+
+랜덤 이미지 URL과 제목,내용의 경우
+이벤트 발생시마다
+
+- this.#title
+- this.#content
+- this.#ImageUrl
+  로 저장해주었습니다.
+  등록하기 버튼 클릭시에는 해당 값들을 axios를 통해 제공된 api로 보내줍니다
+
+---
+
+**DetailPage**
+![](https://velog.velcdn.com/images/ryong-e/post/a8e5c8d0-a5df-4cab-b726-6503d282b84b/image.png)
+
+post클릭시 상세정보를 보여주는 DetailPage입니다.
+url의 query문으로 id값을 보내주기 때문에 id값을 가져오기 위한 getSeachParam이라는 함수를 만들어 실행해주었습니다
+
+![](https://velog.velcdn.com/images/ryong-e/post/35a3d8bc-7760-45e1-a04b-13360f608032/image.png)
+해당 id에 해당하는 post를 요청해서 가져옵니다
+
+> 새로고침을 하였더니 게시글이 없는 경우, 유저가 url에있는 id값을 변경하였는데 DB에 없는 id값을 경우
+> alert로 없는 페이지라고 알림 후 HomePage로 이동시킵니다
+
+post와 관련된 값은 this.#postInfo
+댓글(comments)와 관련된 값은 this.#comments
+
+게시글 삭제 버튼 클릭시 삭제를 하고싶은지 한 번더 물어본뒤 진행합니다
+게시글 수정 버튼 클릭시 EditPage로 넘어갑니다
+
+댓글작성시엔 input에 값이 없는 경우 alert로 작성 실패 알림이 뜨고 정상적인 요청이라면
+제공된 api로 요청을 보내주었고 작성한 댓글을 보여주기위해 this.#comments에 작성한 댓글정보를 추가해줍니다.
+
+댓글 삭제시엔 삭제를 하고싶은지 한 번더 물어본뒤 api요청을 통해 삭제한뒤 this.#comments에 filter를 통해 클릭한 댓글을 걸러낸 뒤 다시 render해주게 됩니다
+
+---
+
+**EditPage**
+
+![](https://velog.velcdn.com/images/ryong-e/post/a45c6975-b124-467d-82fb-22d71d5f8def/image.png)
+
+수정페이지 EditPage입니다
+WritePage와 비슷한 부분이 많은 Page입니다.
+
+WritePage에서 value값만 지정해주면 한 곳에서 처리가 가능할것같습니다
+시간이 부족해서 해당 작업은 하지 못했습니다.
+
+우선은 따로 분리하여 작성하였습니다.
+
+## 번들링
+
+**.babelrc**
+
+```js
+{
+  "presets": [["@babel/preset-env", { "useBuiltIns": "entry", "corejs": 3 }]]
+}
+
+```
+
+번들링을 하기 위해 webpack을 사용했습니다
+
+webpack.config.js
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'src', 'public'),
+    filename: 'main.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          {
+            loader: 'css-loader',
+            options: { import: true },
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [new MiniCssExtractPlugin()],
+};
+```
+
+# 이슈
+
+## 1
+
+웹 사이트 접근시에 렌더링이 되는데 좀 오래 걸렸습니다 깜빡이기도하고
+렌더링 후에 다른 탭으로 이동했다가 다시 돌아왔을 때 아무것도 보이지않고 1초뒤 보이는 현상이 있었습니다
+
+> 하지만 사파리 브라우저에서는 깜빡이긴하지만 빠르게 로딩이 되었습니다
+
+이부분이 왜 그런지 알 수 없어서 오랜시간 잡혀있었습니다
+
+> network탭에서 보니 탭이동시에 보이지 않는 부분을 확인 해 본 결과 다시 요청을 보내거나 하지는 않았고,
+> road이벤트가 일어나는 시점이 늦는 것도 확인 했습니다
+
+랜더링을 할 때 횟수가 많은가 하여 랜더링해주는 로직에 console을 찍어보니 5번 6번씩 찍혔습니다
+이 것 때문인가 해서 살펴보았습니다
+원인은 webpack plugin으로 빌드시 나온 js파일을 자동으로 html에 작성해주는것이 원인이였습니다.
+빌드를 할 떄마다 한 줄씩 추가되었던 것이였습니다...
+추가할 스크립트 파일을 하나 밖에 없으니 html에 직접 한 줄만 추가하고 해당 plugin은 제거하였습니다.
+
+**그랬더니 해결됐나**??
+
+똑같은 상태로 저를 약올렸습니다.
+새로고침을 해도 늦게뜨고 요청을 보냈을 때 응답이 느린가? 그러지도 않았습니다.
+network를 자세히 살펴보니
+이미지가 로드가 늦게되면서 load이벤트도 늦게되어 전체적으로 느려져서 그러지않을까 생각이 들어
+응답으로온 이미지 링크의 크기를 살펴보았습니다
+
+> 사진의 크기는 사진마다 다르지만 5메가,3메가,6메가
+
+엄청나게 크기가 컷습니다. 이게 이렇게 크지 않을텐데... 어떻게 해야할까 고민이 되었습니다
+링크로 가져오는 사진인데 이것을 최적화를 할 수 있을까? 나만 이상한 링크가 들어왔나? 의심이 들었습니다
+예시페이지로 들어가 같은 사진을 찍어보니 ...
+제 웹페이지에선 5메가 예시페이지에선 300kb 엄청나게 차이가 났습니다
+이게 같은 링크의 사진이 맞는지,제공한 api가 이상한가 싶었습니다
+설마 랜덤이미지라 링크가 다른가해서 같은 사진의 링크를 비교해봤습니다
+예시페이지와 제 웹페이지에서 쓰는 링크랑 차이점이 있었습니다
+제 코드에서는 마지막에 }이 추가되어있었습니다. **오타**가 있었던 것이였죠
+원래의 이미지 링크와 다를텐데 오류를 내주지않았던 것일까요....
+오타 수정을하니 모든게 정상적으로 돌아가기 시작했습니다
+사파리는 왜 잘 작동 했을까 신기합니다
+
+## 2
+
+페이지 최적화를 위해
+Cache-Control max-age를 이용해 css,js 파일들을 최대 시간인 31536000로 설정하여 캐싱해주려고합니다.
+
+```js
+app.use(
+  '/',
+  express.static(path.resolve(__dirname, 'src', 'public'),{maxAge:'31536000'});
+    },
+  }),
+);
+```
+
+위처럼 바로 maxAge를 설정해 줄 수 있습니다. 하지만 network 탭에서 확인 시 제가 입력한대로 지정이 되지않았습니다.
+
+```js
+app.use(
+  '/',
+  express.static(path.resolve(__dirname, 'src', 'public'), {
+    setHeaders: function (res, path, stat) {
+      res.setHeader('Cache-Control', 'max-age=31536000');
+    },
+  }),
+);
+```
+
+위처럼 작성시에는 정상적으로 최대시간이 적용되었습니다.
+두 코드의 차이가 무엇인지는 모르겠습니다. 아시는 분이 계신다면 코멘트 부탁드립니다.
+
+## 네이버 클라우드 사용기
+
+넘블에서 네이버 클라우드 크레딧을 지원하여서
+배포를 해야되는 상황이기에 네이버 클라우드 서비스를 진행하기로 했습니다
+로그인을 하고보니 다양한 서비스들이 있었습니다
+각 서비스마다 무엇을 지원하는지 작성되어있어 필요한 서비스를 찾는데 쉬웠습니다
+저는 server가 필요했기에
+server와 연결을 위한 PublicIP를 사용하였습니다
+클라우드 서비스를 이용하여 배포하는 것은 처음이여서 많이 어렵지 않을까 했는데
+기본 가이드가 있어 무엇을 선택해야 하고 무엇이 필요한지, 친절하고 자세히 설명되어있었습니다
+결제 부분에 대해서도 쉽고 얼마를 사용하고 어디서 사용했는지 확인이 쉬워 편리했습니다
+클라우드 서비스를 필요로 하는 사람이 있다면 추천을 해주고 싶습니다
