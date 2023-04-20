@@ -1,4 +1,5 @@
-import { Center, Flex, Link } from '@chakra-ui/react';
+import { Center, Flex } from '@chakra-ui/react';
+import { Link } from 'gatsby';
 
 const Pagenation = ({
   currentPage,
@@ -11,7 +12,7 @@ const Pagenation = ({
     <Flex gap='20px'>
       {Array.from({ length: totalPageNumber }).map((v, i) => {
         return (
-          <Link key={i} href={i === 0 ? '/' : `${i + 1}`}>
+          <Link key={i} to={i === 0 ? '/' : `/${i + 1}`}>
             <Center
               width='30px'
               height='30px'
