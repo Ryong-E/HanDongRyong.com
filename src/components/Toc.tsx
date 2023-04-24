@@ -33,7 +33,7 @@ const TocItem = ({ content, targetId }: TocItemProps) => {
       {items && (
         <Box paddingInlineStart='20px'>
           {items.map((item, index) => (
-            <TocItem targetId={targetId} content={item} key={item.title} />
+            <TocItem targetId={targetId} content={item} key={item.title + index} />
           ))}
         </Box>
       )}
