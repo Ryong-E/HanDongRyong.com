@@ -1,0 +1,299 @@
+---
+slug: single-linked-list
+title: 싱글 링크드 리스트
+description: 단일 연결 리스트 구현해보기
+thumbnail: https://kr.object.ncloudstorage.com/handongryong/algorithm.png
+tags: ['dataStructure']
+createdAt: '2023/04/25'
+updatedAt: ''
+---
+
+# 단일 연결 리스트와 Array 차이점
+
+Array는 데이터에 index가 부여됩니다.몇 번째 데이터에 접근하겠다가 가능합니다 반면에 연결 리스트는 인덱스 없이 그냥 다수의 데이터들로 구성됩니다
+3번째 노드에 접근을 하고 싶다면 첫번째, 두번째를 거쳐야지만 접근이 가능합니다
+
+# 단일 연결 리스트
+
+단일 연결 리스트는 문자열, 숫자 등 무엇이던 원하는 데이터를 저장하는 자료구조입니다
+
+Array와는 다르게 각 데이터에 index가 존재하지않아 데이터에 바로 접근이 불가능 합니다.
+
+Array의 경우 엘레베이터를 타고 5층으로 갈 수 있지만
+단일 연결리스트는 계단으로 5층을 올라가야하는 셈입니다
+
+우선 3가지 속성을 알아보겠습니다
+
+1. Head: 리스트의 시작 노드를 가리킵니다
+2. Tail: 리스트의 마지막 노드를 가리킵니다
+3. length: 리스트의 길이를 나타냅니다
+
+각각의 엘리먼트들을 노드라고 부른다고 했을 때
+각 노드는 "Next"라는 포인터를 통해 다음 노드와 연결되어 있고
+각 노드는 문자열이나 숫자 등 데이터 가지고 있고 다음 노드를 가리키는 정보 또한 가지고있습니다, 다음 노드가 없다면 null을 저장하고 있습니다
+
+# 단일 연결 리스트 구현해보기
+
+**구현 해볼 단일 연결 리스트 메소드**
+
+1. push
+2. pop
+3. shift
+4. unshift
+5. get
+6. set
+7. insert
+8. remove
+9. reverse
+
+## Node 만들기
+
+리스트를 이루고 있는 Node를 먼저 만들어 보겠습니다
+
+```js
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+```
+
+## SingleLinked 만들기
+
+```js
+class SingleLinked {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+}
+```
+
+## push 매서드
+
+```js
+push(value){
+  const newNode = new Node(value)
+  if(!this.head){
+    this.head = newNode;
+    this.tail = this.head;
+  }else{
+    this.tail.next = newNode;
+    this.tail = newNode;
+  }
+
+  this.length++;
+
+  return this;
+}
+```
+
+노드를 뒤쪽으로 추가하는 메서드입니다
+
+class Node를 이용하여 새로운 노드 인스턴스를 만들고
+첫 push 케이스와 그 외 나머지로 분기를 나누어 처리합니다.
+
+tail의 next는 null값이기 때문에 next값을 새로 만든 newNode로 정하고 this.tail의 값을 새로만든 노드로 변경해줍니다
+
+## pop 메서드
+
+```js
+pop(){
+  if(this.head) return undefined
+  let current = this.head;
+  let previous = current;
+
+  while(current.next){
+    previous = current;
+    current = current.next;
+  }
+
+  this.tail = previous;
+  this.tail.next = null;
+  this.length--;
+
+  if(this.length === 0){
+    this.head = null;
+    this.tail = null;
+  }
+  return current;
+}
+```
+
+마지막 노드를 제거하는 메서드입니다
+
+this.head를 시작으로 이전 노드와 현재 노드를 저장하면서 전체 노드를 순회합니다
+
+current 노드의 next가 null이라면 마지막 노드여서 삭제시켜야할 노드입니다.
+previous 노드의 next를 null로 변경하여 현재 노드를 삭제 시켜줍니다
+노드의 tail도 바뀌어야 하기 때문에 this.tail도 previous로 변경해줍니다
+
+## shift 매서드
+
+```js
+shift(){
+  if(!this.head) return undefined;
+  const previous = this.head;
+  this.head = previous.next;
+  this.length--;
+
+  if(this.length === 0){
+    this.tail = null;
+  }
+
+  return previous;
+}
+```
+
+앞쪽의 노드를 꺼내는 매서드로
+this.head가 가리키는 노드를 previous에 저장하고
+this.head는 previous의 next를 가리키도록 설정해줍니다
+this.length가 0이라면 모든 데이터가 없으므로 this.tail이 가리키고 있는 값을 null로 변경합니다
+
+## unshift 매서드
+
+```js
+unshift(value){
+  const newNode = new Node(value);
+  if(!this.head){
+    this.head = newNode;
+    this.tail = this.head;
+  }else{
+    newNode.next = this.head;
+    this.head = newNode;
+  }
+  this.length++;
+
+  return this;
+
+}
+```
+
+앞쪽에 노드를 추가하는 메서드입니다
+새로운 노드를 만들고
+this.head를 저장하고 새로만든 노드의 next가 가리키도록 합니다
+this.head는 새로운 노드를 가리키도록 합니다
+
+## get 매서드
+
+```js
+get(index){
+  if(index < 0 || index > this.length) return undefined;
+  let count = 0;
+  let findNode = this.head;
+
+  while(count < index){
+    findNode = findNode.next;
+    count++;
+  }
+
+  return findNode
+}
+```
+
+찾고자 하는 index번호의 데이터를 찾아 반환하는 매서드입니다
+
+바로 해당 index에 접근할 수 없기 때문에
+this.head를 시작으로 count를 세어가면서 index에 도착하면
+찾아낸 Node를 반환합니다
+
+## set 매서드
+
+```js
+set(index,value){
+  const foundNode = this.get(index);
+
+  if(foundNode){
+    foundNode.value = value;
+    return true;
+  }
+
+  return false;
+}
+```
+
+해당 index의 노드의 value값을 변경하는 매서드입니다
+get매서드를 이용하여 node를 찾고 value를 변경해줍니다
+
+## insert 매서드
+
+```js
+insert(index, value){
+  if(index < 0 || index > this.length) return false;
+  if(index === this.length) return !!this.push(value);
+  if(index === 0) return !!this.unshift(value);
+
+  const newNode = new Node(value);
+  const previousNode = this.get(index - 1);
+  const temp = previousNode.next;
+
+  previousNode.next = newNode;
+  newNode.next = temp;
+  this.length++;
+
+  return true;
+}
+```
+
+해당 index에 value를 가진 노드를 추가하는 매서드입니다.
+
+index가 제일 앞이나 뒤라면 만들어둔 매서드를 사용하여 추가합니다
+원하는 index의 이전 node를 this.get 매서드를 이용하여 previousNode에 저장하고 previousNode 노드의 next도 temp에 저장해둡니다.
+
+원하는 index 이전의 노드의 next는 새로만든 Node
+새로만든 Node의 next를 temp로 지정해줍니다
+
+## remove 매서드
+
+```js
+remove(index){
+  if(index < 0 || index > this.length) return undefined;
+  if(index === 0) return this.shift();
+  if(index === this.length) return this.pop();
+
+  const foundNode = this.get(index - 1);
+  const removed = foundNode.next;
+  foundNode.next = removed.next;
+  this.length--;
+
+  return removed;
+}
+```
+
+해당 index에 위치한 node를 제거하는 매서드입니다
+원하는 index의 이전 노드를 찾아 foundNode에 저장해줍니다
+삭제할 노드를 저장해주고
+foundNode의 next를 삭제할 노드의 next값으로 변경해줍니다
+
+## reverse 매서드
+
+```js
+reverse(){
+  let currentNode = this.head
+  let previousNode = null
+  let nextNode;
+  this.head = this.tail
+  this.tail = currentNode;
+  for(let i = 0; i < this.length; i++){
+    nextNode = currentNode.next;
+    currentNode.next = previousNode;
+    previousNode = currentNode;
+  }
+  return this
+}
+```
+
+리스트를 역방향으로 바꿔주는 매서드입니다
+
+시작점을 가질 currentNode
+이전값을 가질 previous노드 초기값은 null head부분이 tail이 되어야하기 때문에 null로 초기값을 둡니다
+역방향으로 지정을 해야하기 때문에 다음 노드를 저장해둘 nextNode 변수를 생성해줍니다
+
+this.head는 this.tail로 this.tail은 this.head 값으로 변경시켜줍니다
+
+리스트 길이만큼 순회하면서
+nextNode에 현재 노드의 다음 노드 값을 저장시키고
+현재 노드의 next는 이전 노드를 바라볼 수 있도록 해줍니다
+previous노드의 값은 현재 노드값을 저장함으로써 이전 노드의 값을 저장해줍니다
