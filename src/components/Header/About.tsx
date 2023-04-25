@@ -2,7 +2,7 @@ import { Text } from '@chakra-ui/react';
 
 const About = () => {
   return (
-    <a href='https://ryong.oopy.io' target='_blank' rel='noreferrer'>
+    <a href='https://handongryong.super.site/' target='_blank' rel='noreferrer'>
       <Text
         fontSize={16}
         fontStyle='italic'
