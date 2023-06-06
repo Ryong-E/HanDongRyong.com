@@ -5,7 +5,7 @@ const PostLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header />
-      <Box maxWidth='800px' as='main' width='100%' display='flex' margin='auto' padding='50px'>
+      <Box maxWidth='800px' as='main' width='100%' display='flex' margin='auto' padding='0 20px'>
         {children}
       </Box>
     </>
