@@ -35,7 +35,7 @@ const AllPostTemplate = ({ data }: { data: GatsbyTypes.AllPostTemplateQuery }) =
         width='100%'
         height='100%'
         as='section'
-        padding='50px'
+        padding='0 20px'
         maxW='calc(100% - 20px)'
         display='flex'
         justifyContent={'center'}

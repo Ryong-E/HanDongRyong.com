@@ -24,7 +24,7 @@ const TocItem = ({ content, targetId }: TocItemProps) => {
           fontSize='18px'
           transition='0.2s'
           transform={isShown ? 'scale(1.04)' : 'scale(1)'}
-          color={isShown ? FontColor.artHeader : 'GrayText'}
+          color={isShown ? FontColor.highlightColor : 'GrayText'}
           fontWeight={isShown ? 700 : 400}
         >
           {title}

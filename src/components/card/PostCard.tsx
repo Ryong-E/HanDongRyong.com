@@ -17,14 +17,14 @@ const PostCard = ({ post }: PostProps) => {
         height='100%'
         width='100%'
         fontFamily='Pretendard'
-        alignItems='center'
+        alignItems={{ sm: 'left', md: 'center' }}
         _hover={{
           '& > img': {
             transform: 'translateY(-10px)',
             boxShadow: '2xl',
           },
           '& h1': {
-            color: FontColor.artHeader,
+            color: FontColor.highlightColor,
           },
         }}
       >

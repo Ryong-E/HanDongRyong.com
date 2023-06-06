@@ -7,5 +7,5 @@ export const SeriesBgColor: ColorType = {
 };
 
 export const FontColor = {
-  artHeader: 'rgb(190,51,84)',
+  highlightColor: 'rgb(190,51,84)',
 } as const;

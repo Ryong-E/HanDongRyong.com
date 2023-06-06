@@ -9,7 +9,7 @@ const Pagenation = ({
   totalPageNumber: number;
 }) => {
   return (
-    <Flex gap='20px'>
+    <Flex gap='20px' marginTop='30px'>
       {Array.from({ length: totalPageNumber }).map((v, i) => {
         return (
           <Link key={i} to={i === 0 ? '/' : `/${i + 1}`}>
