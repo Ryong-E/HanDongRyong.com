@@ -5,16 +5,16 @@ import CodeBlock from './CodeBlock';
 
 const components = {
   h1: (props: Object) => (
-    <Heading as='h1' fontSize='36px' mt='60px' pt='70px' mb='15px' {...props}></Heading>
+    <Heading as='h1' fontSize='32px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   h2: (props: Object) => (
-    <Heading as='h2' fontSize='32px' mt='60px' pt='70px' mb='15px' {...props}></Heading>
+    <Heading as='h2' fontSize='28px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   h3: (props: Object) => (
-    <Heading as='h3' fontSize='26px' mt='60px' pt='70px' mb='15px' {...props}></Heading>
+    <Heading as='h3' fontSize='26px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   h4: (props: Object) => (
-    <Heading as='h4' fontSize='22px' mt='60px' pt='70px' mb='15px' {...props}></Heading>
+    <Heading as='h4' fontSize='22px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   a: (props: Object) => {
     return (
@@ -71,7 +71,7 @@ const components = {
       </Box>
     );
   },
-  p: (props: Object) => <Text fontSize='18px' {...props} />,
+  p: (props: Object) => <Text fontSize='18px' mt='25px' mb='4px' {...props} />,
   img: (props: Object) => <Image {...props} width='100%' margin='20px 0' />,
   hr: (props: Object) => (
     <Text as='hr' mt='20px' mb='20px' {...props} borderTop='2px solid #e2e2e2e2' />

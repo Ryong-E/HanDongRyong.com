@@ -14,7 +14,7 @@ const MainLayOut = ({ children }: { children: React.ReactNode }) => {
         justifyContent={'center'}
         fontWeight={500}
         as='main'
-        padding='30px 0 100px 0'
+        padding='100px 0 100px 0'
       >
         {children}
       </Box>
