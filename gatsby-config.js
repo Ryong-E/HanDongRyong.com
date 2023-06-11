@@ -74,5 +74,21 @@ module.exports = {
         head: true,
       },
     },
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        host: 'https://handongryong.com',
+        sitemap: 'https://handongryong.com/sitemap-index.xml',
+        env: {
+          development: {
+            policy: [{ userAgent: '*', disallow: ['/'] }],
+          },
+          production: {
+            policy: [{ userAgent: '*', allow: '/' }],
+          },
+        },
+      },
+    },
+    'gatsby-plugin-sitemap',
   ],
 };

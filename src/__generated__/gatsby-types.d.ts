@@ -2567,7 +2567,7 @@ type PostQueryVariables = Exact<{
 }>;
 
 
-type PostQuery = { readonly mdx: { readonly id: string, readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly thumbnail: string | null, readonly title: string | null, readonly updatedAt: string | null } | null } | null };
+type PostQuery = { readonly mdx: { readonly id: string, readonly tableOfContents: any | null, readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly thumbnail: string | null, readonly title: string | null, readonly updatedAt: string | null } | null } | null };
 
 
 }
