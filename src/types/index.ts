@@ -1,25 +1,10 @@
-export interface PostCardProps {
+import { IGatsbyImageData } from 'gatsby-plugin-image';
+
+export interface PostFrontMatter {
+  slug: string;
   title: string;
   description: string;
-  thumbnail: string;
-  tags: string[];
   createdAt: string;
-}
-
-export interface ColorType {
-  [index: string]: string;
-}
-
-export interface SeriesData {
-  totalCount: number;
-  tag: string;
-}
-
-export interface Post {
-  description: string | null;
-  title: string | null;
-  thumbnail: string | null;
-  createdAt: string | null;
-  slug: string | null;
-  tags: readonly (string | null)[] | null;
+  tags: readonly (string | null)[];
+  thumbnail: IGatsbyImageData;
 }

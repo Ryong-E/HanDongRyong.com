@@ -9,7 +9,7 @@ const wrapESMPlugin = (name) =>
 
 module.exports = {
   siteMetadata: {
-    title: `handongryong`,
+    title: `한동룡의 기술 블로그`,
     description: '주니어 프론트엔드 개발자 한동룡입니다',
     siteUrl: `https://handongryong.com`,
   },
@@ -50,7 +50,13 @@ module.exports = {
         name: 'content',
         path: `${__dirname}/content`,
       },
-      __key: 'pages',
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'thumbnails',
+        path: `${__dirname}/thumbnails`,
+      },
     },
     {
       resolve: '@chakra-ui/gatsby-plugin',

@@ -1341,7 +1341,7 @@ type MdxFrontmatter = {
   readonly description: Maybe<Scalars['String']>;
   readonly slug: Maybe<Scalars['String']>;
   readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
-  readonly thumbnail: Maybe<Scalars['String']>;
+  readonly thumbnail: Maybe<File>;
   readonly title: Maybe<Scalars['String']>;
   readonly updatedAt: Maybe<Scalars['String']>;
 };
@@ -1351,7 +1351,7 @@ type MdxFrontmatterFieldSelector = {
   readonly description: InputMaybe<FieldSelectorEnum>;
   readonly slug: InputMaybe<FieldSelectorEnum>;
   readonly tags: InputMaybe<FieldSelectorEnum>;
-  readonly thumbnail: InputMaybe<FieldSelectorEnum>;
+  readonly thumbnail: InputMaybe<FileFieldSelector>;
   readonly title: InputMaybe<FieldSelectorEnum>;
   readonly updatedAt: InputMaybe<FieldSelectorEnum>;
 };
@@ -1361,7 +1361,7 @@ type MdxFrontmatterFilterInput = {
   readonly description: InputMaybe<StringQueryOperatorInput>;
   readonly slug: InputMaybe<StringQueryOperatorInput>;
   readonly tags: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<StringQueryOperatorInput>;
+  readonly thumbnail: InputMaybe<FileFilterInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
   readonly updatedAt: InputMaybe<StringQueryOperatorInput>;
 };
@@ -1371,7 +1371,7 @@ type MdxFrontmatterSortInput = {
   readonly description: InputMaybe<SortOrderEnum>;
   readonly slug: InputMaybe<SortOrderEnum>;
   readonly tags: InputMaybe<SortOrderEnum>;
-  readonly thumbnail: InputMaybe<SortOrderEnum>;
+  readonly thumbnail: InputMaybe<FileSortInput>;
   readonly title: InputMaybe<SortOrderEnum>;
   readonly updatedAt: InputMaybe<SortOrderEnum>;
 };
@@ -2560,14 +2560,14 @@ type AllPostTemplateQueryVariables = Exact<{
 }>;
 
 
-type AllPostTemplateQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly thumbnail: string | null, readonly title: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly slug: string | null } | null }>, readonly pageInfo: { readonly currentPage: number, readonly pageCount: number } } };
+type AllPostTemplateQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly title: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly slug: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null }>, readonly pageInfo: { readonly currentPage: number, readonly pageCount: number } }, readonly imageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type PostQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type PostQuery = { readonly mdx: { readonly id: string, readonly tableOfContents: any | null, readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly thumbnail: string | null, readonly title: string | null, readonly updatedAt: string | null } | null } | null };
+type PostQuery = { readonly mdx: { readonly id: string, readonly tableOfContents: any | null, readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly title: string | null, readonly updatedAt: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null } | null };
 
 
 }

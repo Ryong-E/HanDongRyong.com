@@ -21,7 +21,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           frontmatter {
             createdAt
             description
-            thumbnail
+            thumbnail {
+              childImageSharp {
+                gatsbyImageData
+              }
+            }
             title
             tags
             slug
