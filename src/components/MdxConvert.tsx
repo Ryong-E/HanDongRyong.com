@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Highlight, Image, Text } from '@chakra-ui/react';
+import { Box, Code, Flex, Heading, Highlight, Image, Text } from '@chakra-ui/react';
 import { MDXProvider } from '@mdx-js/react';
 import React from 'react';
 import CodeBlock from './CodeBlock';
@@ -66,35 +66,24 @@ const components = {
               <line x1='12' x2='12.01' y1='17' y2='17' />
             </svg>
           </Box>
-          <Box _dark={{ color: 'white' }}>{children}</Box>
+          <Box _dark={{ color: 'white' }}>
+            <span>{children}</span>
+          </Box>
         </Flex>
       </Box>
     );
   },
-  p: (props: Object) => <Text fontSize='18px' mt='25px' mb='4px' {...props} />,
+  p: (props: Object) => <Text fontSize='18px' mt='16px' mb='16px' lineHeight='1.8' {...props} />,
   img: (props: Object) => <Image {...props} width='100%' margin='20px 0' />,
   hr: (props: Object) => (
     <Text as='hr' mt='20px' mb='20px' {...props} borderTop='2px solid #e2e2e2e2' />
   ),
   strong: ({ ...props }) => {
-    const { children: query } = props;
+    const { children } = props;
     return (
-      <Box as='strong'>
-        <Highlight
-          query={query}
-          styles={{
-            px: '2',
-            paddingY: '0.5',
-            rounded: 'full',
-            bg: 'teal.100',
-            fontWeight: 700,
-            _dark: { color: 'white', bg: 'teal.600' },
-          }}
-          {...props}
-        >
-          {query}
-        </Highlight>
-      </Box>
+      <Text as='span' fontWeight='700'>
+        {children}
+      </Text>
     );
   },
   ol: (props: Object) => (
@@ -125,9 +114,9 @@ const components = {
 
     if (!isCode) {
       return (
-        <Text as='code' fontWeight='bold'>
+        <Code borderRadius='5px' bg='#dddddd' fontWeight='700'>
           {children}
-        </Text>
+        </Code>
       );
     }
     return CodeBlock(children, className);
