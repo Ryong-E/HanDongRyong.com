@@ -1,20 +1,20 @@
-import { Box, Code, Flex, Heading, Highlight, Image, Text } from '@chakra-ui/react';
+import { Box, Code, Flex, Heading, Highlight, Image, Kbd, Text } from '@chakra-ui/react';
 import { MDXProvider } from '@mdx-js/react';
 import React from 'react';
 import CodeBlock from './CodeBlock';
 
 const components = {
   h1: (props: Object) => (
-    <Heading as='h1' fontSize='32px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading as='h1' fontSize='36px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   h2: (props: Object) => (
-    <Heading as='h2' fontSize='28px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading as='h2' fontSize='32px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   h3: (props: Object) => (
-    <Heading as='h3' fontSize='26px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading as='h3' fontSize='28px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   h4: (props: Object) => (
-    <Heading as='h4' fontSize='22px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading as='h4' fontSize='26px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
   ),
   a: (props: Object) => {
     return (
@@ -31,50 +31,45 @@ const components = {
   blockquote: ({ ...props }) => {
     const { children } = props;
     return (
-      <Box
-        backgroundColor={'blue.800'}
-        _dark={{ backgroundColor: 'white' }}
-        color='black'
-        paddingLeft='5px'
-        borderRadius='10px'
-        margin='20px 0'
+      <Flex
         as='blockquote'
         {...props}
+        _dark={{
+          backgroundColor: 'rgb(39, 158, 255,0.1)',
+          color: '#D7F3FA',
+        }}
+        color='#00346d'
+        backgroundColor='blue.50'
+        wordBreak={'keep-all'}
+        borderRadius='10px'
+        padding='10px 15px'
+        margin='10px 0 20px 0'
       >
-        <Flex
-          backgroundColor='blue.100'
-          _dark={{ backgroundColor: 'blue.800' }}
-          wordBreak={'keep-all'}
-          borderRadius='10px'
-          padding='20px 0'
-        >
-          <Box display='flex' alignItems='center' margin='0 10px'>
-            <svg
-              className='feather feather-help-circle'
-              fill='white'
-              height='24'
-              stroke='currentColor'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              viewBox='0 0 24 24'
-              width='24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <circle cx='12' cy='12' r='10' />
-              <path d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3' />
-              <line x1='12' x2='12.01' y1='17' y2='17' />
-            </svg>
-          </Box>
-          <Box _dark={{ color: 'white' }}>
-            <span>{children}</span>
-          </Box>
-        </Flex>
-      </Box>
+        <Box display='flex' alignItems='center' margin='0 10px'>
+          <svg
+            width='30px'
+            height='30px'
+            viewBox='0 0 24 24'
+            fill='#D7F3FA'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              d='M3 13.6493C3 16.6044 5.41766 19 8.4 19L16.5 19C18.9853 19 21 16.9839 21 14.4969C21 12.6503 19.8893 10.9449 18.3 10.25C18.1317 7.32251 15.684 5 12.6893 5C10.3514 5 8.34694 6.48637 7.5 8.5C4.8 8.9375 3 11.2001 3 13.6493Z'
+              stroke='#000000'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </svg>
+        </Box>
+        <Box>
+          <span>{children}</span>
+        </Box>
+      </Flex>
     );
   },
-  p: (props: Object) => <Text fontSize='18px' mt='16px' mb='16px' lineHeight='1.8' {...props} />,
-  img: (props: Object) => <Image {...props} width='100%' margin='20px 0' />,
+  p: (props: Object) => <Text fontSize='16px' mt='16px' mb='16px' lineHeight='1.8' {...props} />,
+
   hr: (props: Object) => (
     <Text as='hr' mt='20px' mb='20px' {...props} borderTop='2px solid #e2e2e2e2' />
   ),
@@ -89,7 +84,7 @@ const components = {
   ol: (props: Object) => (
     <Box
       as='ol'
-      fontSize='18px'
+      fontSize='16px'
       mt='15px'
       listStylePos='inside'
       sx={{ '& ::marker ': { fontWeight: 'bold' } }}
@@ -97,16 +92,9 @@ const components = {
       {...props}
     />
   ),
-  li: (props: Object) => (
-    <Box
-      as='li'
-      {...props}
-      lineHeight='36px'
-      sx={{ '&::marker': { fontSize: '20px' }, '& ul': { marginLeft: '15px' } }}
-    />
-  ),
+  li: (props: Object) => <Box as='li' {...props} lineHeight='32px' sx={{}} />,
   ul: (props: Object) => (
-    <Box as='ul' fontSize='18px' mt='15px' mb='15px' listStylePos='inside' {...props} />
+    <Box as='ul' fontSize='16px' mt='15px' mb='15px' listStylePos='inside' {...props} />
   ),
   code: ({ ...props }) => {
     const { className, children } = props;
@@ -114,9 +102,14 @@ const components = {
 
     if (!isCode) {
       return (
-        <Code borderRadius='5px' bg='#dddddd' fontWeight='700'>
+        <Kbd
+          marginRight='3px'
+          _dark={{ borderColor: 'whiteAlpha.300', backgroundColor: 'whiteAlpha.100' }}
+          borderColor={'gray.400'}
+          paddingBottom='3px'
+        >
           {children}
-        </Code>
+        </Kbd>
       );
     }
     return CodeBlock(children, className);

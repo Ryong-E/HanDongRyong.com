@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const readingTime = require('reading-time');
 const AllPostTemplate = resolve('./src/templates/AllPostTemplate.tsx');
 const PostPage = resolve('./src/templates/PostPage.tsx');
 
@@ -33,6 +34,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           internal {
             contentFilePath
           }
+          body
         }
       }
     }
@@ -63,6 +65,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: `${PostPage}?__contentFilePath=${post.internal.contentFilePath}`,
       context: {
         id: post.id,
+        readingTime: readingTime(post.body),
       },
     });
   });

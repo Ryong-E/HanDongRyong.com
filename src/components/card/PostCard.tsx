@@ -20,7 +20,7 @@ const PostCard = ({ title, slug, createdAt, description, thumbnail }: PostFrontM
             boxShadow: '2xl',
           },
           '& h1': {
-            color: FontColor.highlightColor,
+            color: 'blue.600',
           },
         }}
       >

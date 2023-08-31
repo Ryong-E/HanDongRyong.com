@@ -1,3 +1,3 @@
 export const FontColor = {
-  highlightColor: 'rgb(190,51,84)',
+  highlightColor: '#2B6CB0',
 } as const;

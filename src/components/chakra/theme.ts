@@ -1,9 +1,18 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const style = {
+  styles: {
+    global: {
+      '.gatsby-resp-image-figcaption': {
+        textAlign: 'center',
+        marginTop: '10px',
+        color: 'gray.500',
+      },
+    },
+  },
   colors: {
     gray: {
-      800: '#121212',
+      800: '#17171B',
     },
   },
   fonts: {

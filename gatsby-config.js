@@ -25,18 +25,26 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
+        extensions: [`.mdx`, `.md`],
         gatsbyRemarkPlugins: [
           {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 700,
+              wrapperStyle: `margin: 25px 0px; z-index: 0`,
+              showCaptions: true,
             },
           },
         ],
         mdxOptions: {
           rehypePlugins: [
             wrapESMPlugin(`rehype-slug`),
-            [wrapESMPlugin(`rehype-autolink-headings`), { behavior: `after` }],
+            [
+              wrapESMPlugin(`rehype-autolink-headings`),
+              {
+                behavior: `after`,
+              },
+            ],
           ],
         },
       },

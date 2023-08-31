@@ -2573,5 +2573,10 @@ type PostQueryVariables = Exact<{
 
 type PostQuery = { readonly mdx: { readonly id: string, readonly tableOfContents: any | null, readonly frontmatter: { readonly createdAt: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly title: string | null, readonly updatedAt: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null } | null };
 
+type profileQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type profileQueryQuery = { readonly imageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
 
 }

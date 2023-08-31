@@ -2,6 +2,7 @@ import { Box, Divider, Heading, Text } from '@chakra-ui/react';
 import Giscus from 'components/Giscus';
 import PostLayout from 'components/layout/PostLayout';
 import MdxConvert from 'components/MdxConvert';
+import { Profile } from 'components/Profile';
 import Toc from 'components/Toc';
 import { graphql, HeadFC } from 'gatsby';
 import { GatsbyImage, getSrc } from 'gatsby-plugin-image';
@@ -29,13 +30,48 @@ export const query = graphql`
 `;
 interface PostPageProps {
   data: GatsbyTypes.PostQuery;
+  pageContext: {
+    readingTime: {
+      minutes: number;
+      text: string;
+      time: number;
+      words: number;
+    };
+  };
   children: React.ReactNode;
 }
-const PostPage = ({ data, children }: PostPageProps) => {
+const PostPage = ({ data, children, pageContext }: PostPageProps) => {
   const tableOfContents = data.mdx?.tableOfContents;
   return (
     <PostLayout>
       <Box as='article' width='100%' minWidth={{ sm: '0', xl: '700px' }} paddingBottom='300px'>
+        <Heading as='h1' marginTop='60px' fontWeight='700' size='xl' marginBottom='10px'>
+          {data.mdx?.frontmatter?.title}
+        </Heading>
+        <Box marginBottom='30px' display='flex' gap='20px'>
+          <Text width='auto' marginBottom='20px'>
+            {data.mdx?.frontmatter?.createdAt}
+          </Text>
+          <Text>{pageContext.readingTime.text}</Text>
+        </Box>
+        <Box marginBottom='50px' display='flex'>
+          {data.mdx?.frontmatter?.tags?.map((tag) => (
+            <Text
+              borderRadius='20px'
+              display='flex'
+              alignItems='center'
+              padding='5px 10px'
+              justifyContent='center'
+              width='auto'
+              fontWeight='700'
+              border='1px solid black'
+              _dark={{ borderColor: 'white' }}
+            >
+              {tag}
+            </Text>
+          ))}
+        </Box>
+
         <Box marginTop='50px'>
           <GatsbyImage
             style={{
@@ -48,16 +84,9 @@ const PostPage = ({ data, children }: PostPageProps) => {
             image={data.mdx?.frontmatter?.thumbnail?.childImageSharp?.gatsbyImageData!}
           />
         </Box>
-        <Heading marginTop='60px' fontWeight='700' fontSize='48px' marginBottom='10px'>
-          {data.mdx?.frontmatter?.title}
-        </Heading>
-        <Box marginBottom='50px'>
-          <Text width='auto' marginBottom='20px'>
-            {data.mdx?.frontmatter?.createdAt}
-          </Text>
-          <Divider borderBottomWidth='3px' borderColor='blackAlpha.400' borderRadius='20px' />
-        </Box>
+
         <MdxConvert mdxContent={children} />
+        <Profile />
         <Giscus />
       </Box>
       <Box as='nav' width='300px' marginLeft='100px' display={{ sm: 'none', xl: 'block' }}>

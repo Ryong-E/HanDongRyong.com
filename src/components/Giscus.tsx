@@ -18,7 +18,7 @@ const Giscus = () => {
     script.setAttribute('data-input-position', 'bottom');
     script.setAttribute('data-theme', colorMode === 'dark' ? 'dark_dimmed' : 'light_tritanopia');
     script.setAttribute('data-lang', 'ko');
-    // script.setAttribute('crossorigin', 'anonymous');
+    script.setAttribute('crossorigin', 'anonymous');
     script.crossOrigin = 'anonymous';
     script.async = true;
     console.log(colorMode);
@@ -36,14 +36,6 @@ const Giscus = () => {
     setGiscus();
   }, [setGiscus]);
 
-  return (
-    <Box
-      marginTop='100px'
-      width='100%'
-      maxWidth='700px'
-      className='giscus'
-      id='comment-container'
-    ></Box>
-  );
+  return <Box marginTop='100px' width='100%' className='giscus' id='comment-container'></Box>;
 };
 export default Giscus;
