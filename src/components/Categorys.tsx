@@ -13,13 +13,19 @@ const Categorys = ({ currentCategory }: { currentCategory: string }) => {
   `);
 
   return (
-    <Box as='nav' width='70%' display='flex' gap='20px' flexWrap={'wrap'} justifyContent='center'>
+    <Box
+      as='nav'
+      width={{ sm: '100%', md: '70%' }}
+      display='flex'
+      gap={{ sm: '5px', md: '20px' }}
+      flexWrap={'wrap'}
+      justifyContent='center'
+    >
       <Link to='/'>
         <Tag
-          padding='10px 15px'
           height='30px'
           fontWeight='700'
-          fontSize='16px'
+          fontSize={{ sm: '14px', md: '16px' }}
           transition='0.2s'
           _dark={{
             color: 'white',
@@ -37,10 +43,9 @@ const Categorys = ({ currentCategory }: { currentCategory: string }) => {
       {data.allMdx.group.map((tag: any) => (
         <Link to={`/${tag.fieldValue}`}>
           <Tag
-            padding='10px 15px'
             height='30px'
             transition='0.2s'
-            fontSize='16px'
+            fontSize={{ sm: '14px', md: '16px' }}
             _dark={{
               color: 'white',
               _hover: {
