@@ -2,6 +2,7 @@ const { resolve } = require('path');
 const readingTime = require('reading-time');
 const AllPostTemplate = resolve('./src/templates/AllPostTemplate.tsx');
 const PostPage = resolve('./src/templates/PostPage.tsx');
+const CategoryTemplate = resolve('./src/templates/CategoryTemplate.tsx');
 
 exports.onCreateBabelConfig = ({ actions }) => {
   actions.setBabelPlugin({
@@ -37,6 +38,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           body
         }
       }
+
+      category: allMdx {
+        group(field: { frontmatter: { tags: SELECT } }) {
+          fieldValue
+          nodes {
+            id
+          }
+        }
+      }
     }
   `);
 
@@ -45,6 +55,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const posts = result.data.allPosts.nodes;
   const allPostsPages = Math.ceil(posts.length / POST_PER_PAGE);
 
+  //전체 카테고리 페이지
   Array.from({ length: allPostsPages }).forEach((v, i) => {
     createPage({
       path: i === 0 ? '/' : `/${i + 1}`,
@@ -56,6 +67,23 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         currentPage: i + 1,
         posts,
       },
+    });
+  });
+
+  //카테고리 필터 페이지
+  result.data.category.group.forEach(({ fieldValue, nodes }) => {
+    const allCategoryPageNumber = Math.ceil(nodes.length / POST_PER_PAGE);
+
+    Array.from({ length: allCategoryPageNumber }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? `/${fieldValue}` : `/${fieldValue}${i + 1}`,
+        component: CategoryTemplate,
+        context: {
+          limit: POST_PER_PAGE,
+          skip: i * POST_PER_PAGE,
+          category: fieldValue,
+        },
+      });
     });
   });
 
