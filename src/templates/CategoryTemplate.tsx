@@ -7,20 +7,26 @@ import { graphql, HeadFC } from 'gatsby';
 import { getSrc } from 'gatsby-plugin-image';
 
 export const query = graphql`
-  query AllPostTemplate($limit: Int, $skip: Int) {
-    allMdx(sort: { frontmatter: { createdAt: DESC } }, skip: $skip, limit: $limit) {
+  query CategoryTemplate($limit: Int, $skip: Int, $category: [String]) {
+    allMdx(
+      filter: { frontmatter: { tags: { in: $category } } }
+      sort: { frontmatter: { createdAt: DESC } }
+      skip: $skip
+      limit: $limit
+    ) {
       nodes {
         frontmatter {
-          createdAt
+          tags
+          slug
           description
+          createdAt
           thumbnail {
             childImageSharp {
               gatsbyImageData
             }
           }
           title
-          tags
-          slug
+          updatedAt
         }
       }
       pageInfo {
@@ -34,9 +40,16 @@ export const query = graphql`
   }
 `;
 
-const AllPostTemplate = ({ data }: { data: GatsbyTypes.AllPostTemplateQuery }) => {
+const CategoryTemplate = ({
+  data,
+  pageContext,
+}: {
+  data: GatsbyTypes.CategoryTemplateQuery;
+  pageContext: any;
+}) => {
   const currentPage = data.allMdx.pageInfo.currentPage;
   const totalPageNumber = data.allMdx.pageInfo.pageCount;
+
   return (
     <MainLayOut>
       <Box
@@ -51,20 +64,18 @@ const AllPostTemplate = ({ data }: { data: GatsbyTypes.AllPostTemplateQuery }) =
         flexDirection='column'
         gap={20}
       >
-        <Categorys currentCategory={''} />
-        {data.allMdx.nodes.map((data, i) => {
-          return (
-            <PostCard
-              slug={data.frontmatter?.slug!}
-              key={i}
-              title={data.frontmatter?.title!}
-              description={data.frontmatter?.description!}
-              createdAt={data.frontmatter?.createdAt!}
-              tags={data.frontmatter?.tags!}
-              thumbnail={data.frontmatter?.thumbnail?.childImageSharp?.gatsbyImageData!}
-            />
-          );
-        })}
+        <Categorys currentCategory={pageContext.category} />
+        {data.allMdx.nodes.map((data, i) => (
+          <PostCard
+            slug={data.frontmatter?.slug!}
+            key={i}
+            title={data.frontmatter?.title!}
+            description={data.frontmatter?.description!}
+            createdAt={data.frontmatter?.createdAt!}
+            tags={data.frontmatter?.tags!}
+            thumbnail={data.frontmatter?.thumbnail?.childImageSharp?.gatsbyImageData!}
+          />
+        ))}
       </Box>
       {totalPageNumber > 1 && (
         <Pagenation currentPage={currentPage} totalPageNumber={totalPageNumber} />
@@ -93,4 +104,5 @@ export const Head: HeadFC<GatsbyTypes.AllPostTemplateQuery> = ({ data }) => {
     </>
   );
 };
-export default AllPostTemplate;
+
+export default CategoryTemplate;
