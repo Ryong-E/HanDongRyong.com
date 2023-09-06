@@ -92,7 +92,7 @@ module.exports = {
       resolve: 'gatsby-plugin-robots-txt',
       options: {
         host: 'https://handongryong.com',
-        sitemap: 'https://handongryong.com/sitemap-index.xml',
+        sitemap: 'https://handongryong.com/sitemap.xml',
         env: {
           development: {
             policy: [{ userAgent: '*', disallow: ['/'] }],
@@ -103,6 +103,6 @@ module.exports = {
         },
       },
     },
-    'gatsby-plugin-sitemap',
+    'gatsby-plugin-advanced-sitemap',
   ],
 };
