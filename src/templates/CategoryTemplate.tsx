@@ -45,7 +45,12 @@ const CategoryTemplate = ({
   pageContext,
 }: {
   data: GatsbyTypes.CategoryTemplateQuery;
-  pageContext: any;
+  pageContext: {
+    limit: number;
+    skip: number;
+    postAmount: number;
+    category: string;
+  };
 }) => {
   const currentPage = data.allMdx.pageInfo.currentPage;
   const totalPageNumber = data.allMdx.pageInfo.pageCount;
@@ -64,7 +69,7 @@ const CategoryTemplate = ({
         flexDirection='column'
         gap={20}
       >
-        <Categorys currentCategory={pageContext.category} />
+        <Categorys currentCategory={pageContext.category} postAmount={pageContext.postAmount} />
         {data.allMdx.nodes.map((data, i) => (
           <PostCard
             slug={data.frontmatter?.slug!}

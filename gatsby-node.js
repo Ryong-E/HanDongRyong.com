@@ -73,7 +73,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   //카테고리 필터 페이지
   result.data.category.group.forEach(({ fieldValue, nodes }) => {
     const allCategoryPageNumber = Math.ceil(nodes.length / POST_PER_PAGE);
-
     Array.from({ length: allCategoryPageNumber }).forEach((_, i) => {
       createPage({
         path: i === 0 ? `/${fieldValue}` : `/${fieldValue}${i + 1}`,
@@ -82,6 +81,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           limit: POST_PER_PAGE,
           skip: i * POST_PER_PAGE,
           category: fieldValue,
+          postAmount: nodes.length,
         },
       });
     });

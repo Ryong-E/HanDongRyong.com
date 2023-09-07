@@ -34,9 +34,22 @@ export const query = graphql`
   }
 `;
 
-const AllPostTemplate = ({ data }: { data: GatsbyTypes.AllPostTemplateQuery }) => {
+const AllPostTemplate = ({
+  data,
+  pageContext,
+}: {
+  data: GatsbyTypes.AllPostTemplateQuery;
+  pageContext: {
+    currentPage: number;
+    limit: number;
+    skip: number;
+    posts: GatsbyTypes.AllPostTemplateQuery['allMdx']['nodes'];
+    numpage: number;
+  };
+}) => {
   const currentPage = data.allMdx.pageInfo.currentPage;
   const totalPageNumber = data.allMdx.pageInfo.pageCount;
+
   return (
     <MainLayOut>
       <Box
@@ -51,7 +64,7 @@ const AllPostTemplate = ({ data }: { data: GatsbyTypes.AllPostTemplateQuery }) =
         flexDirection='column'
         gap={20}
       >
-        <Categorys currentCategory={''} />
+        <Categorys currentCategory={''} postAmount={pageContext.posts.length} />
         {data.allMdx.nodes.map((data, i) => {
           return (
             <PostCard

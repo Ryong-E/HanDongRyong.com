@@ -1,7 +1,13 @@
-import { Box, Tag } from '@chakra-ui/react';
+import { Badge, Box, Heading, Tag, Text } from '@chakra-ui/react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 
-const Categorys = ({ currentCategory }: { currentCategory: string }) => {
+const Categorys = ({
+  currentCategory,
+  postAmount,
+}: {
+  currentCategory: string;
+  postAmount: number;
+}) => {
   const data = useStaticQuery(graphql`
     query lists {
       allMdx {
@@ -11,60 +17,71 @@ const Categorys = ({ currentCategory }: { currentCategory: string }) => {
       }
     }
   `);
-
   return (
-    <Box
-      as='nav'
-      width={{ sm: '100%', md: '70%' }}
-      display='flex'
-      gap={{ sm: '5px', md: '20px' }}
-      flexWrap={'wrap'}
-      justifyContent='center'
-    >
-      <Link to='/'>
-        <Tag
-          height='30px'
-          fontWeight='700'
-          fontSize={{ sm: '14px', md: '16px' }}
-          transition='0.2s'
-          _dark={{
-            color: 'white',
-            _hover: { backgroundColor: currentCategory !== '' ? 'whiteAlpha.200' : '' },
-          }}
-          _hover={{
-            backgroundColor: currentCategory !== '' ? 'blackAlpha.200' : '',
-          }}
-          colorScheme={'facebook'}
-          variant={currentCategory === '' ? 'solid' : 'outline'}
-        >
-          All
-        </Tag>
-      </Link>
-      {data.allMdx.group.map((tag: any) => (
-        <Link to={`/${tag.fieldValue}`}>
-          <Tag
-            height='30px'
-            transition='0.2s'
-            fontSize={{ sm: '14px', md: '16px' }}
-            _dark={{
-              color: 'white',
-              _hover: {
-                backgroundColor: currentCategory !== tag.fieldValue ? 'whiteAlpha.200' : '',
-              },
-            }}
-            _hover={{
-              backgroundColor: currentCategory !== tag.fieldValue ? 'blackAlpha.200' : '',
-            }}
-            fontWeight='700'
-            colorScheme={'facebook'}
-            variant={currentCategory === tag.fieldValue ? 'solid' : 'outline'}
-          >
-            {tag.fieldValue}
-          </Tag>
-        </Link>
-      ))}
+    <Box display='flex' flexDirection='column' alignItems='center' gap='40px'>
+      <Box
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='center'
+        gap='10px'
+      >
+        <Heading fontSize={{ sm: '36px', md: '60px' }} fontWeight={800}>
+          {currentCategory === '' ? 'All Posts' : currentCategory}
+        </Heading>
+        <Badge fontSize={{ sm: '14px', md: '16px' }}>{postAmount} Posts</Badge>
+      </Box>
+      <Box
+        as='nav'
+        width={{ sm: '100%', md: '70%' }}
+        display='flex'
+        gap={{ sm: '10px', md: '20px' }}
+        flexWrap={'wrap'}
+        justifyContent='center'
+        alignItems='center'
+      >
+        <UnderLineLink link={''} isSelected={currentCategory === ''} />
+        {data.allMdx.group.map((tag: any) => (
+          <UnderLineLink link={tag.fieldValue} isSelected={tag.fieldValue === currentCategory} />
+        ))}
+      </Box>
     </Box>
   );
 };
 
+const UnderLineLink = ({ link, isSelected }: { link: string; isSelected: boolean }) => {
+  return (
+    <Link to={`/${link}`}>
+      <Text
+        position='relative'
+        _after={{
+          position: 'absolute',
+          content: '""',
+          height: '1px',
+          bottom: '-1px',
+          left: '0',
+          width: '100%',
+          bg: 'black',
+          transition: 'transform 0.2s ease-out',
+          transformOrigin: 'bottom right',
+          transform: isSelected ? 'scaleX(1)' : 'scaleX(0)',
+        }}
+        fontSize={{ sm: '14px', md: '16px' }}
+        _dark={{
+          _after: {
+            bg: 'white',
+          },
+        }}
+        _hover={{
+          _after: {
+            transform: 'scaleX(1)',
+            transformOrigin: 'bottom left',
+          },
+        }}
+      >
+        {link === '' ? 'All' : link}
+      </Text>
+    </Link>
+  );
+};
 export default Categorys;
