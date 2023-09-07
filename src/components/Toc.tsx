@@ -21,7 +21,8 @@ const TocItem = ({ content, targetId }: TocItemProps) => {
     <Box>
       <Link to={url}>
         <Text
-          fontSize='18px'
+          lineHeight='28px'
+          fontSize='14px'
           transition='0.2s'
           transform={isShown ? 'scale(1.04)' : 'scale(1)'}
           color={isShown ? FontColor.highlightColor : 'GrayText'}

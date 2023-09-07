@@ -16,11 +16,11 @@ const ThemeToggle = () => {
       aria-label='toggle'
       icon={<SwitchIcon />}
       zIndex='300'
+      _dark={{
+        _hover: { backgroundColor: 'whiteAlpha.200' },
+      }}
       _hover={{
-        bgGradient:
-          colorMode === 'dark'
-            ? 'linear(to-b, #4299E1,#C4F1F9)'
-            : 'linear(to-b, orange.100, purple.300)',
+        backgroundColor: 'blackAlpha.200',
       }}
     ></IconButton>
   );
