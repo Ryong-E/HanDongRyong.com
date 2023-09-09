@@ -1,4 +1,4 @@
-import { Box, Divider, Heading, Text } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import Giscus from 'components/Giscus';
 import PostLayout from 'components/layout/PostLayout';
 import MdxConvert from 'components/MdxConvert';
@@ -42,6 +42,7 @@ interface PostPageProps {
 }
 const PostPage = ({ data, children, pageContext }: PostPageProps) => {
   const tableOfContents = data.mdx?.tableOfContents;
+
   return (
     <PostLayout>
       <Box as='article' width='100%' minWidth={{ sm: '0', xl: '700px' }} paddingBottom='300px'>
@@ -72,7 +73,7 @@ const PostPage = ({ data, children, pageContext }: PostPageProps) => {
           ))}
         </Box>
 
-        <Box marginTop='50px'>
+        <Box marginTop='50px' marginBottom='50px'>
           <GatsbyImage
             style={{
               borderRadius: '20px',
@@ -104,6 +105,8 @@ export const Head: HeadFC<GatsbyTypes.PostQuery> = ({ data }) => {
     <>
       <title>{title}</title>
       <meta name='description' content={description} />
+      <meta name='author' content='한동룡'></meta>
+      <meta name='author' content='동룡'></meta>
       <meta name='naver-site-verification' content='4fc69b1ccb5d3fe134d2663f45be860476f4d8ef' />
 
       <meta

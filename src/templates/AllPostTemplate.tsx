@@ -89,12 +89,14 @@ const AllPostTemplate = ({
 export const Head: HeadFC<GatsbyTypes.AllPostTemplateQuery> = ({ data }) => {
   const ogImage = data.imageSharp?.gatsbyImageData!;
   const title = '한동룡의 기술 블로그';
-  const description = '주니어 프론트엔드 개발자 한동룡 입니다';
+  const description = '주니어 프론트엔드 개발자 한동룡의 기술 블로그 입니다';
 
   return (
     <>
       <title>{title}</title>
       <meta name='description' content={description}></meta>
+      <meta name='author' content='한동룡'></meta>
+      <meta name='author' content='동룡'></meta>
       <meta name='viewport' content='width=device-width, initial-scale=1' />
       <meta name='naver-site-verification' content='4fc69b1ccb5d3fe134d2663f45be860476f4d8ef' />
       <meta property='og:url' content='https://handongryong.com' />
