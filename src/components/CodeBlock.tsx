@@ -1,11 +1,19 @@
 import Highlight, { defaultProps } from 'prism-react-renderer';
-import palenight from 'prism-react-renderer/themes/vsDark';
+import dark from 'prism-react-renderer/themes/vsDark';
+import light from 'prism-react-renderer/themes/github';
+import { useColorMode, Text } from '@chakra-ui/react';
 
 function CodeBlcok(children: any, className: any) {
+  const { colorMode, setColorMode } = useColorMode();
   const language = className?.replace(/language-/, '');
 
   return (
-    <Highlight {...defaultProps} code={children} language={language} theme={palenight}>
+    <Highlight
+      {...defaultProps}
+      code={children}
+      language={language}
+      theme={colorMode === 'light' ? light : dark}
+    >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre
           className={className}
@@ -19,11 +27,14 @@ function CodeBlcok(children: any, className: any) {
           }}
         >
           {tokens.map((line, i) => (
-            <p key={i} {...getLineProps({ line, key: i })}>
+            <div key={i} {...getLineProps({ line, key: i })}>
+              <Text display='inline-block' opacity={0.3} userSelect='none' width='2em'>
+                {i + 1}
+              </Text>
               {line.map((token, key) => (
                 <span key={key} {...getTokenProps({ token, key })} />
               ))}
-            </p>
+            </div>
           ))}
         </pre>
       )}
