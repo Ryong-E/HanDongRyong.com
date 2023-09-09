@@ -18,7 +18,13 @@ const Categorys = ({
     }
   `);
   return (
-    <Box display='flex' flexDirection='column' alignItems='center' gap='40px'>
+    <Box
+      display='flex'
+      flexDirection='column'
+      alignItems='center'
+      gap='40px'
+      width={{ sm: '100%', md: '70%' }}
+    >
       <Box
         display='flex'
         flexDirection='column'
