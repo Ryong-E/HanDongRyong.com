@@ -1,0 +1,128 @@
+---
+slug: debounce-trottle
+title: 이벤트가 많아... Debounce와 Throttle
+description: 무수히 많이 일어나는 이벤트에 대해 최적화하기 위한 방법으로 Debounce,Throttle에 대해 설명합니다.
+thumbnail: ../../../thumbnails/stop.png
+tags: ['Development']
+createdAt: '2023/09/07'
+updatedAt: ''
+---
+
+input이나 scroll시 발생하는 이벤트를 보면 무수히 많은 이벤트가 발생하는 것을 볼 수 있다.
+스크롤 이벤트를 예시로 들면 마우스 휠로 5번만 아래로 내려도 스크롤 이벤트는 엄청나게 많은 이벤트를 발생시킨다
+이벤트가 일어날 때 마다 콜백함수를 실행시키게 되고, 이는 리소스를 낭비하게 될 것이다.
+
+![이벤트 멈춰!!!](./stopPerson.png)
+
+이러한 무수히 많은 이벤트가 일어나 성능을 저하시키는 이슈를 Debounce와 Throttle를 이용해서 이벤트 발생을 최적화하여 성능을 향상 시킬 수 있다.
+
+그럼 이제 Debounce와 Throttle에 대해 알아보자!
+
+## Debounce
+
+간략하게 먼저 알아보자
+
+> 요청이 들어오면 일정 시간 후에 수행하고 일정 시간 안에 요청이 들어오면 이전의 요청은 무시된다
+
+적용할 수 있는 부분에 대해서는 예시를 하나 들어보자
+어느 기능을 on/off 할 수 있는 토글 버튼이 있다고 해보자. 사용자가 토글 버튼을 반복해서 누르게 된다면 누를 때 마다 이벤트가 일어나 성능저하를 야기할 수 있다.<br/>
+우리가 얻고자하는 건 최종적으로 선택한 값이기 때문에 마지막 이벤트만 알 수 있으면 된다.
+**Debounce**를 적용한다면 마지막의 요청만을 받아들여 실행시킬 수 있어 많이 일어나는 이벤트에 대해서 처리할 수 있다
+
+## Throttle
+
+Throttle도 간략하게 알아보자
+
+> 요청이 들어왔을 때 일정 시간이 지나기전에는 요청을 받지않는다
+
+스크롤 이벤트를 예시로 들어보자
+스크롤 이벤트는 스크롤시 무수히 많이 발생하고 콜백함수로 복잡한 작업을 하도록 한다면
+빈번하게 발생하는 이벤트로인해 성능저하가 일어날 것 입니다.<br/>
+여기서 **Throttle**을 이용해서 지정한 시간마다 한 번의 이벤트를 발생시키도록 제한을 걸어줄 수 있다
+
+## 구현 방법
+
+Debounce와 Throttle을 한 번 만들어보자<br/>
+많이 사용하는 `JavaScript`와 `React`로 제작을 해보겠습니다
+
+### Debounce
+
+`JavaScript`
+
+```js
+function debounce(callback, limit = 1000) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callback(...args);
+    }, limit);
+  };
+}
+```
+
+`React`
+
+```jsx
+const useDebounce(callback,limit=1000) => {
+    const timer = useRef()
+
+    const debouncedFn = useCallback((...args)=>{
+        if(timer.current){
+            clearTimeout(timer.current)
+        }
+        timer.current = setTimeout(()=>{
+            callback(...args)
+        },limit);
+    },[limit])
+
+    useEffect(()=>{
+        return () => {
+            if(timer.current){
+                clearTimeout(timer.current)
+            }
+        }
+    },[])
+
+    return debouncedFn
+}
+```
+
+### Throttle
+
+`JavaScript`
+
+```js
+function throttle(callback, time = 200) {
+  let timeout = false;
+  return function (...args) {
+    if (!timeout) {
+      callback(...args);
+      timeout = true;
+      timeout = setTimeout(() => {
+        timeout = false;
+      }, time);
+    }
+  };
+}
+```
+
+`React`
+
+```jsx
+function useThrottle(callback,time=200){
+    let wait = useRef(false)
+
+    const throttledFn = useCallback((...args){
+        if(!wait.current){
+            callback(...args)
+            wait.current = true
+            setTimeout(()=>{
+                wait.current = false
+            },time)
+        }
+    },[time])
+
+    return throttledFn
+}
+```
