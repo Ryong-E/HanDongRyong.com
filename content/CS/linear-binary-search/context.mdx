@@ -3,12 +3,12 @@ slug: linear-binary-search
 title: 선형 검색과 이진 검색이 무엇일까
 description: 선형 검색, 이진검색이 무엇이고 어떻게 구현하는지 알아보자
 thumbnail: ../../../thumbnails/computerScience.png
-tags: ['Computer Science']
+tags: ['computer-science']
 createdAt: '2023/02/14'
 updatedAt: ''
 ---
 
-# 선형검색
+## 선형검색
 
 처음부터 끝까지 배열들을 순회하면서 일치하는 것을 찾아낸다
 메서드로는 indexOf includes등이 있다
@@ -16,12 +16,12 @@ updatedAt: ''
 예시로 indexOf를 만들어 보자
 
 ```js
-function linearSearch(arr,val){
-	for(let i  = 0; i < arr.length; i++{
-    	if(arr[i] === val) return i
-    }
+function linearSearch(arr, val) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === val) return i;
+  }
 
-	return -1
+  return -1;
 }
 ```
 
@@ -32,7 +32,7 @@ arr와 찾고자 하는 value만 넣으면 해당 인덱스를 반환하거나 �
 이보다 발전된 이진 검색도 있다
 한 번 살펴보자
 
-# 이진검색
+## 이진검색
 
 이진 검색은 정렬이 되어있어야만 적용이 가능하다
 기본적인 개념은 분할 정복이다
