@@ -1,5 +1,4 @@
-import { Box, Heading, Image, Text } from '@chakra-ui/react';
-import { FontColor } from 'styles/color';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import { PostFrontMatter } from 'types';
 import { Link } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
@@ -12,7 +11,6 @@ const PostCard = ({ title, slug, createdAt, description, thumbnail }: PostFrontM
         flexDirection={{ sm: 'column', md: 'row', lg: 'row' }}
         height='100%'
         width='100%'
-        fontFamily='Pretendard'
         alignItems={{ sm: 'left', md: 'center' }}
         _hover={{
           '& > div:first-child': {
@@ -41,8 +39,9 @@ const PostCard = ({ title, slug, createdAt, description, thumbnail }: PostFrontM
         </Box>
         <Box maxWidth={{ sm: '100%', md: '60%' }}>
           <Heading
-            as='h1'
-            fontSize={{ sm: '26px', md: '36px', lg: '36px' }}
+            fontFamily='ChosunGu'
+            as='h2'
+            fontSize={{ sm: '26px', md: '32px' }}
             marginBottom='20px'
             wordBreak='keep-all'
             textOverflow='ellipsis'

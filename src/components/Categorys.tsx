@@ -1,5 +1,7 @@
-import { Badge, Box, Heading, Tag, Text } from '@chakra-ui/react';
+import { Badge, Box, Heading, Text } from '@chakra-ui/react';
+import { CATEGORY_TANSLATE } from 'constants/title';
 import { graphql, Link, useStaticQuery } from 'gatsby';
+import { convertTitle } from 'utils/convertTitle';
 
 const Categorys = ({
   currentCategory,
@@ -32,8 +34,8 @@ const Categorys = ({
         alignItems='center'
         gap='10px'
       >
-        <Heading fontSize={{ sm: '36px', md: '60px' }} fontWeight={800}>
-          {currentCategory === '' ? 'All Posts' : currentCategory}
+        <Heading fontFamily={'ChosunGu'} fontSize={{ sm: '36px', md: '60px' }} fontWeight={700}>
+          {currentCategory === '' ? 'ALL POSTS' : convertTitle(currentCategory)}
         </Heading>
         <Badge fontSize={{ sm: '14px', md: '16px' }}>{postAmount} Posts</Badge>
       </Box>
@@ -85,7 +87,7 @@ const UnderLineLink = ({ link, isSelected }: { link: string; isSelected: boolean
           },
         }}
       >
-        {link === '' ? 'All' : link}
+        {link === '' ? 'All' : CATEGORY_TANSLATE[link]}
       </Text>
     </Link>
   );

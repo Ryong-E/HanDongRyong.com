@@ -1,20 +1,52 @@
-import { Box, Code, Flex, Heading, Highlight, Image, Kbd, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Kbd, Text } from '@chakra-ui/react';
 import { MDXProvider } from '@mdx-js/react';
 import React from 'react';
 import CodeBlock from './CodeBlock';
 
 const components = {
   h1: (props: Object) => (
-    <Heading as='h1' fontSize='36px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading
+      as='h1'
+      fontFamily='ChosunGu'
+      fontSize='36px'
+      mt='40px'
+      pt='70px'
+      mb='5px'
+      {...props}
+    ></Heading>
   ),
   h2: (props: Object) => (
-    <Heading as='h2' fontSize='32px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading
+      as='h2'
+      fontFamily='ChosunGu'
+      fontSize='32px'
+      mt='40px'
+      pt='70px'
+      mb='5px'
+      {...props}
+    ></Heading>
   ),
   h3: (props: Object) => (
-    <Heading as='h3' fontSize='28px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading
+      as='h3'
+      fontFamily='ChosunGu'
+      fontSize='28px'
+      mt='40px'
+      pt='70px'
+      mb='5px'
+      {...props}
+    ></Heading>
   ),
   h4: (props: Object) => (
-    <Heading as='h4' fontSize='26px' mt='40px' pt='70px' mb='5px' {...props}></Heading>
+    <Heading
+      as='h4'
+      fontFamily='ChosunGu'
+      fontSize='26px'
+      mt='40px'
+      pt='70px'
+      mb='5px'
+      {...props}
+    ></Heading>
   ),
   a: (props: Object) => {
     return (
@@ -107,6 +139,7 @@ const components = {
           _dark={{ borderColor: 'whiteAlpha.300', backgroundColor: 'whiteAlpha.100' }}
           borderColor={'gray.400'}
           paddingBottom='3px'
+          fontFamily='ChosunGu'
         >
           {children}
         </Kbd>

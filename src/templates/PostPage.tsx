@@ -4,6 +4,7 @@ import PostLayout from 'components/layout/PostLayout';
 import MdxConvert from 'components/MdxConvert';
 import { Profile } from 'components/Profile';
 import Toc from 'components/Toc';
+import { CATEGORY_TANSLATE } from 'constants/title';
 import { graphql, HeadFC } from 'gatsby';
 import { GatsbyImage, getSrc } from 'gatsby-plugin-image';
 
@@ -46,7 +47,14 @@ const PostPage = ({ data, children, pageContext }: PostPageProps) => {
   return (
     <PostLayout>
       <Box as='article' width='100%' minWidth={{ sm: '0', xl: '700px' }} paddingBottom='300px'>
-        <Heading as='h1' marginTop='60px' fontWeight='700' size='xl' marginBottom='10px'>
+        <Heading
+          as='h1'
+          fontFamily='ChosunGu'
+          marginTop='60px'
+          fontWeight='700'
+          size='xl'
+          marginBottom='10px'
+        >
           {data.mdx?.frontmatter?.title}
         </Heading>
         <Box marginBottom='30px' display='flex' gap='20px'>
@@ -68,7 +76,7 @@ const PostPage = ({ data, children, pageContext }: PostPageProps) => {
               border='1px solid black'
               _dark={{ borderColor: 'white' }}
             >
-              {tag}
+              {CATEGORY_TANSLATE[tag!]}
             </Text>
           ))}
         </Box>
@@ -108,7 +116,6 @@ export const Head: HeadFC<GatsbyTypes.PostQuery> = ({ data }) => {
       <meta name='author' content='한동룡'></meta>
       <meta name='author' content='동룡'></meta>
       <meta name='naver-site-verification' content='4fc69b1ccb5d3fe134d2663f45be860476f4d8ef' />
-
       <meta
         property='og:url'
         content={`https://handongryong.com/post/${data.mdx?.frontmatter?.slug}`}

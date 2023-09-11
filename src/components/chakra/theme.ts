@@ -16,8 +16,8 @@ const style = {
     },
   },
   fonts: {
-    body: 'Pretendard',
-    html: 'Pretendard',
+    body: 'ChosunGu',
+    html: 'ChosunGu',
   },
   breakpoints: {
     sm: '320px', // 320px ~ 768px

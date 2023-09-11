@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Flex, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Center, Flex, Text, Tooltip } from '@chakra-ui/react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { ReactNode } from 'react';
@@ -116,7 +116,7 @@ export const Profile = () => {
         </Box>
       </Flex>
       <Box marginTop='20px'>
-        <Text fontWeight='500' fontSize={'14px'}>
+        <Text fontWeight='700' fontSize={'14px'}>
           한동룡
         </Text>
       </Box>
