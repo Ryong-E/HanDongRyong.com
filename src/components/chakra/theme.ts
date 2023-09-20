@@ -16,8 +16,9 @@ const style = {
     },
   },
   fonts: {
-    body: 'ChosunGu',
-    html: 'ChosunGu',
+    body: 'HakgyoansimWoojuR',
+    html: 'HakgyoansimWoojuR',
+    heading: 'HakgyoansimWoojuR',
   },
   breakpoints: {
     sm: '320px', // 320px ~ 768px

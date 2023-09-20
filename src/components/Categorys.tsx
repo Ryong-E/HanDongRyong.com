@@ -34,7 +34,7 @@ const Categorys = ({
         alignItems='center'
         gap='10px'
       >
-        <Heading fontFamily={'ChosunGu'} fontSize={{ sm: '36px', md: '60px' }} fontWeight={700}>
+        <Heading fontSize={{ sm: '36px', md: '60px' }} fontWeight={700}>
           {currentCategory === '' ? 'ALL POSTS' : convertTitle(currentCategory)}
         </Heading>
         <Badge fontSize={{ sm: '14px', md: '16px' }}>{postAmount} Posts</Badge>

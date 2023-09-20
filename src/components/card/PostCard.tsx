@@ -39,7 +39,6 @@ const PostCard = ({ title, slug, createdAt, description, thumbnail }: PostFrontM
         </Box>
         <Box maxWidth={{ sm: '100%', md: '60%' }}>
           <Heading
-            fontFamily='ChosunGu'
             as='h2'
             fontSize={{ sm: '26px', md: '32px' }}
             marginBottom='20px'

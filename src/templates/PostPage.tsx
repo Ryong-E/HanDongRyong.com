@@ -47,14 +47,7 @@ const PostPage = ({ data, children, pageContext }: PostPageProps) => {
   return (
     <PostLayout>
       <Box as='article' width='100%' minWidth={{ sm: '0', xl: '700px' }} paddingBottom='300px'>
-        <Heading
-          as='h1'
-          fontFamily='ChosunGu'
-          marginTop='60px'
-          fontWeight='700'
-          size='xl'
-          marginBottom='10px'
-        >
+        <Heading as='h1' marginTop='60px' fontWeight='700' size='xl' marginBottom='10px'>
           {data.mdx?.frontmatter?.title}
         </Heading>
         <Box marginBottom='30px' display='flex' gap='20px'>
@@ -80,7 +73,6 @@ const PostPage = ({ data, children, pageContext }: PostPageProps) => {
             </Text>
           ))}
         </Box>
-
         <Box marginTop='50px' marginBottom='50px'>
           <GatsbyImage
             style={{
@@ -93,8 +85,8 @@ const PostPage = ({ data, children, pageContext }: PostPageProps) => {
             image={data.mdx?.frontmatter?.thumbnail?.childImageSharp?.gatsbyImageData!}
           />
         </Box>
-
         <MdxConvert mdxContent={children} />
+
         <Profile />
         <Giscus />
       </Box>
