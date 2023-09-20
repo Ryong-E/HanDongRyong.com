@@ -1,0 +1,111 @@
+---
+slug: package-manager
+title: 자바스크립트 패키지 매니저 어셈블 (npm,yarn,yarn berry, pnpm)
+description: npm,yarn,yarn berry, pnpm 자바스크립트 패키지 매니저에 대해 알아보자
+thumbnail: ../../../thumbnails/package.png
+tags: ['development']
+createdAt: '2023/09/13'
+updatedAt: ''
+---
+
+## 자바스크립트 패키지 매니저란
+
+패키지 매니저(package manager)는 프로젝트가 의존하고 있는 패키지를 설치,갱신,삭제를 손쉽게 할 수 있는 도구입니다.
+자바스크립트는 광활한 오픈소스 생태계를 가지고 있기에 패키지 매니저는 중요한 도구입니다.
+
+자바스크립트 패키지 매니저는 Node.js 환경에서 실행되고 package.json 파일을 통해 패키지 목록을 정의합니다. 설치된 모듈들은 node_modules 폴더에 저장됩니다.
+
+대표적인 자바스크립트 패키지 매니저는 `npm`, `yarn`, `yarn berry`, `pnpm`이 있다.
+
+각 패키지 관리자의 장,단점들을 살펴보겠습니다.
+
+### npm
+
+npm(Node Pacakge Manager)으로 별다른 설치없이 Node.js를 설치하면 자동적으로 설치되는 패키지 매니저로 가장 접근하기 쉬운 패키지 매니저입니다.
+
+<Callout variant='warn' title='단점 :'>
+
+패키지 설치시 모듈들을 한 번에 하나씩만 순차적으로 설치하여 설치시간이 깁니다.<br />
+패키지 버전 관리를 제대로 처리하지 않으면, 버전 충돌 문제가 발생할 수 있습니다.
+
+</Callout>
+
+<Callout variant='primary' title='장점 :'>
+
+매우 간단하고 직관적인 CLI를 제공합니다.<br/>
+매우 큰 패키지 레파지토리를 가지고 있습니다
+
+</Callout>
+
+### yarn
+
+Yarn은 JavaScript 프로젝트의 종속성을 관리하는 데 사용되는 확립된 오픈 소스 패키지 관리자입니다. 패키지 종속성을 설치, 업데이트, 구성 및 제거하는 프로세스를 지원하여 결과적으로 방해 요소를 줄이고 목표를 더 빠르게 달성할 수 있도록 도와줍니다.
+
+> yarn은 1.22.19버전을 마지막으로 지원이 중단되었습니다.
+
+<Callout variant='warn' title='단점 :'>
+
+npm에 비해 패키지 레파지토리가 작습니다.<br />
+Node.js에서 기본적으로 제공하지 않기에 별도로 다운로드를 해야합니다.
+
+</Callout>
+
+<Callout variant='primary' title='장점 :'>
+
+yarn.lock 파일을 통해 의존성 버전을 명시적으로 지정하여 버전 충돌 가능성을 낮춰줍니다.<br/>
+npm 보다 빠르고 안정적이게 패키지를 다운로드하고 관리합니다
+
+</Callout>
+
+### yarn berry
+
+Yarn은 다양한 패키지로 분할된 최신 패키지 관리자입니다. 새로운 아키텍처를 통해 현재 기존 솔루션으로는 불가능한 작업을 수행할 수 있습니다.
+
+> yarn berry는 yarn v2 이상의 yarn modern를 명칭합니다. yarn v1은 yarn classic으로 부릅니다.
+
+#### Plug'n'Play
+
+Plug'n'Play는 새로운 패키지 관리 시스템입니다
+기존에 무거웠던 `node_modules` 를 사용하지 않고 패키지에 관한 정보들을 .zip 파일로 압축하여 `.yarn/cache` 폴더에 의존성들을 저장하고 의존성을 찾기 위한 정보들은 `pnp.cjs` 라는 파일에 저장합니다
+
+#### Zero install
+
+`yarn berry`를 사용함으로써 얻을 수 있는 장점입니다.
+`yarn berry`의 의존성은 압축 파일로 저장이 되기 때문에 용량이 적습니다. 그렇기 때문에 `yarn berry` 의존성을 `Git`으로 관리가 가능해집니다.
+의존성을 버전 관리에 포함시키게 된다면 브랜치를 옮기더라도 따로 설치가 필요없이 사용이 가능합니다.
+
+<Callout variant='warn' title='주의 :'>
+
+PnP를 지원하지 않는 패키지도 있습니다
+
+</Callout>
+
+<Callout variant='primary' title='장점 :'>
+
+Zero-install 기능으로 의존성을 버전 관리에 포함할 수 있습니다.<br/>
+PnP기능으로 파일의 크기를 감소, 유령 의존성 해결, 의존성 탐색 시간 단축의 효과를 볼 수 있습니다.
+
+</Callout>
+
+### pnpm
+
+빠르고 디스크 공간 효율적인 패키지 관리자
+`pnpm`은 콘텐츠 주소 지정이 가능한 파일 시스템을 사용하여 모든 모듈 디렉터리의 모든 파일을 디스크에 저장합니다.
+
+<Callout variant='warn' title='단점 :'>
+
+yarn berry와 동일하게 일부 패키지에서 동작하지 않을 수 있습니다.
+
+</Callout>
+
+<Callout variant='primary' title='장점 :'>
+
+simlink를 이용하여 프로젝트의 직접적인 의존성만을 모듈 디렉토리의 루트로 추가합니다.<br />
+공유패키지저장소를 통해 중복 설치를 피하고 디스크 공간을 절약하고 설치 시간을 줄입니다.
+
+</Callout>
+
+## 끝내며
+
+각각 패키지 매니저마다 장,단점이 있고 업데이트가 되며 많은 문제점들이 해결이 되어가는 경우가 많은 것 같다.
+무엇이 좋아서 넘어가자라는 생각보단 이러한 패키지 매니저가 있다라는 것을 알고 있고 상황에 맞게 이주하면 될 것같다.
