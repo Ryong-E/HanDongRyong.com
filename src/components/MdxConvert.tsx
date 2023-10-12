@@ -1,4 +1,4 @@
-import { Box, ComponentDefaultProps, Flex, Heading, Kbd, Text } from '@chakra-ui/react';
+import { Box, ComponentDefaultProps, Flex, Heading, Kbd, Link, Text } from '@chakra-ui/react';
 import { MDXProvider } from '@mdx-js/react';
 import React from 'react';
 import Callout from './Callout';
@@ -19,8 +19,7 @@ const components = {
   ),
   a: (props: Object) => {
     return (
-      <Box
-        as='a'
+      <Link
         fontWeight={700}
         _hover={{ textDecoration: 'underline' }}
         color='blue.400'
@@ -52,7 +51,7 @@ const components = {
   ol: (props: Object) => (
     <Box
       as='ol'
-      fontSize='16px'
+      fontSize={{ sm: '16px', md: '18px' }}
       mt='15px'
       listStylePos='inside'
       sx={{ '& ::marker ': { fontWeight: 'bold' } }}
@@ -62,7 +61,14 @@ const components = {
   ),
   li: (props: Object) => <Box as='li' {...props} lineHeight='32px' sx={{}} mb='20px' />,
   ul: (props: Object) => (
-    <Box as='ul' fontSize='16px' mt='15px' mb='15px' listStylePos='inside' {...props} />
+    <Box
+      as='ul'
+      fontSize={{ sm: '16px', md: '18px' }}
+      mt='15px'
+      mb='15px'
+      listStylePos='inside'
+      {...props}
+    />
   ),
   code: ({ ...props }) => {
     const { className, children } = props;
@@ -71,6 +77,7 @@ const components = {
     if (!isCode) {
       return (
         <Kbd
+          as='span'
           fontSize='14px'
           marginRight='3px'
           position={'relative'}

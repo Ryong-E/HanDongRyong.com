@@ -57,8 +57,9 @@ const PostPage = ({ data, children, pageContext }: PostPageProps) => {
           <Text>{pageContext.readingTime.text}</Text>
         </Box>
         <Box marginBottom='50px' display='flex'>
-          {data.mdx?.frontmatter?.tags?.map((tag) => (
+          {data.mdx?.frontmatter?.tags?.map((tag, i) => (
             <Text
+              key={i}
               borderRadius='20px'
               display='flex'
               alignItems='center'

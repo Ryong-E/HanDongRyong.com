@@ -49,8 +49,12 @@ const Categorys = ({
         alignItems='center'
       >
         <UnderLineLink link={''} isSelected={currentCategory === ''} />
-        {data.allMdx.group.map((tag: any) => (
-          <UnderLineLink link={tag.fieldValue} isSelected={tag.fieldValue === currentCategory} />
+        {data.allMdx.group.map((tag: any, i: number) => (
+          <UnderLineLink
+            key={i}
+            link={tag.fieldValue}
+            isSelected={tag.fieldValue === currentCategory}
+          />
         ))}
       </Box>
     </Box>
