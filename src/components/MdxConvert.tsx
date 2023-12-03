@@ -1,4 +1,13 @@
-import { Box, ComponentDefaultProps, Flex, Heading, Kbd, Link, Text } from '@chakra-ui/react';
+import {
+  Box,
+  ComponentDefaultProps,
+  Flex,
+  Heading,
+  Kbd,
+  Link,
+  Text,
+  textDecoration,
+} from '@chakra-ui/react';
 import { MDXProvider } from '@mdx-js/react';
 import React from 'react';
 import Callout from './Callout';
@@ -17,15 +26,47 @@ const components = {
   h4: (props: Object) => (
     <Heading as='h4' fontSize='24px' mt='40px' pt='70px' mb='20px' {...props}></Heading>
   ),
-  a: (props: Object) => {
+  a: (props: any) => {
+    const { children, ...rest } = props;
     return (
       <Link
         fontWeight={700}
-        _hover={{ textDecoration: 'underline' }}
         color='blue.400'
         target='_blank'
-        {...props}
-      />
+        _hover={{ textDecoration: 'none' }}
+        {...rest}
+      >
+        <Text
+          as='span'
+          position='relative'
+          _after={{
+            position: 'absolute',
+            content: '""',
+            height: '1px',
+            bottom: '-1px',
+            left: '0',
+            width: '100%',
+            bg: 'blue.400',
+            transition: 'transform 0.2s ease-out',
+            transformOrigin: 'bottom right',
+            transform: 'scaleX(0)',
+          }}
+          fontWeight='bold'
+          _dark={{
+            _after: {
+              bg: 'blue.400',
+            },
+          }}
+          _hover={{
+            _after: {
+              transform: 'scaleX(1)',
+              transformOrigin: 'bottom left',
+            },
+          }}
+        >
+          {children}
+        </Text>
+      </Link>
     );
   },
   Callout,
