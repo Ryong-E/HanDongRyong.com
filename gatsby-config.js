@@ -15,6 +15,7 @@ module.exports = {
   },
   graphqlTypegen: true,
   plugins: [
+    'gatsby-plugin-netlify',
     'gatsby-plugin-image',
     {
       resolve: 'gatsby-plugin-manifest',
@@ -103,6 +104,6 @@ module.exports = {
         },
       },
     },
-    'gatsby-plugin-advanced-sitemap',
+    'gatsby-plugin-sitemap',
   ],
 };
