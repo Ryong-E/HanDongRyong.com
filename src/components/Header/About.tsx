@@ -2,11 +2,7 @@ import { Text } from '@chakra-ui/react';
 
 const About = () => {
   return (
-    <a
-      href='https://www.figma.com/file/F6FL05hGZ2Dqkl8B8NMEhC/%ED%95%9C%EB%8F%99%EB%A3%A1-%EC%9D%B4%EB%A0%A5%EC%84%9C?type=design&node-id=0%3A1&mode=design&t=juTDnEH5UqRPqOzf-1'
-      target='_blank'
-      rel='noreferrer'
-    >
+    <a href='https://ryong.super.site/' target='_blank' rel='noreferrer'>
       <Text
         position='relative'
         _after={{
