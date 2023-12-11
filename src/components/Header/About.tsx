@@ -2,7 +2,11 @@ import { Text } from '@chakra-ui/react';
 
 const About = () => {
   return (
-    <a href='https://ryong.super.site/' target='_blank' rel='noreferrer'>
+    <a
+      href='https://ryong-e.notion.site/Resume-43dcf456de0046b184e4b74ecbddcffd?pvs=4'
+      target='_blank'
+      rel='noreferrer'
+    >
       <Text
         position='relative'
         _after={{
