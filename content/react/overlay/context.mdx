@@ -1,0 +1,264 @@
+---
+slug: react-overlay
+title: React에서 overlay(modal,bottomSheet,toast)들을 만들고 관리하기
+description: React에서 overlay요소들을 어떻게 렌더링하고 관리를 하는 방법과 mount애니메이션과 unmount애니메이션을 위한 값들을 어떻게 관리 할 수 있을지 slash/use-overlay를 통해 알아봅니다
+thumbnail: ../../../thumbnails/gift.png
+tags: ['development', 'react']
+createdAt: '2024/01/08'
+updatedAt: '2024/01/08'
+---
+
+## Overlay 컴포넌트들을 어떻게 만들지
+
+modal같은 경우에는 `React createPortal`을 이용해서 만들고 관리는 해보았지만
+바텀시트와 토스트 알림같은 경우에는 해보지 않아서 어떻게 개발을 하는지 궁금했습니다.
+
+모달처럼 사용하면 되지 않을까라는 생각을 해봤었습니다. 기존 모달은 다음과 같이 사용을 했습니다
+
+```jsx
+    function Page(){
+        const [modalOpen,setModalOpen] = useState(false)
+        const Portal = usePortal()
+        ...
+
+        return(
+            ...
+            {modalOpen &&
+            <Portal>
+            <Modal>...</Modal>
+            </Portal>
+            }
+        )
+    }
+```
+
+모달에 대한 상태값이 필요했고 토스트와 바텀시트를 생성하기에는 관리하는데 어려워보였습니다.
+
+그러던 중에 토스의 오픈소스 라이브러리인 [slash](https://slash.page/ko/)를 보게되었고 그 안에서 `useOverlay`라는 hook을 보게되었습니다.
+제가 필요했던 기능을 구현할 수 있겠다는 생각이 들었습니다. 코드들을 뜯어보며 개발을 해보고 어떻게 개발을 했는지 공유를 하고 싶어 글을 작성하기로 하였습니다.
+
+<Callout variant='caution'>slash에 있는 코드와 완전히 동일하지는 않습니다</Callout>
+
+## Overlay 관리 방법
+
+### Provider
+
+먼저 Portal을 이용하여 할 수도 있지만 useOverlay에서는 React의 ContextApi를 통해서 열려있는 overlay들을 관리하고
+상태값에 overlay들을 랜더링하는 방식으로 이루어져있습니다.
+
+```jsx
+
+import React, { ReactNode, createContext, useCallback, useState } from 'react';
+
+export const OverlayContext = createContext<{
+  mount(id: string, element: ReactNode): void;
+  unMount(id: string): void;
+  onceMount(id: string, element: ReactNode): void;
+} | null>(null);
+
+const OverlayProvider = ({ children }: { children: ReactNode }) => {
+  const [overlays, setOverlays] = useState<Map<string, ReactNode>>(new Map());
+
+  const mount = useCallback((id: string, element: ReactNode) => {
+    setOverlays((overlays) => {
+      const temp = new Map(overlays);
+      temp.set(id, element);
+      return temp;
+    });
+  }, []);
+
+  const unMount = useCallback((id: string) => {
+    setOverlays((overlays) => {
+      const temp = new Map(overlays);
+      temp.delete(id);
+      return temp;
+    });
+  }, []);
+
+  const onceMount = useCallback(
+    (id: string, element: ReactNode) => {
+      const temp = new Map(overlays);
+
+      if (temp.has(id)) return;
+      mount(id, element);
+    },
+    [mount, overlays],
+  );
+
+  return (
+    <OverlayContext.Provider value={{ mount, unMount, onceMount }}>
+      {children}
+      {[...overlays.entries()].map(([id, element]) => {
+        return <React.Fragment key={id}>{element}</React.Fragment>;
+      })}
+    </OverlayContext.Provider>
+  );
+};
+export default OverlayProvider;
+
+```
+
+Provider 내부에서는 **Map** 자료구조를 통해서 key/value값 형태로 overlay들을 관리하고 있고<br/>
+overlay를 등록,삭제를 하기 위한 매서드등을 만들고 하위요소에 해당 매서드들을 사용할 수 있도록 `context API`를 통해 공유하고 있습니다.<br/>
+그리고 저장된 overlay들이 있다면 랜더링을 해주고 있습니다.
+
+### Controller
+
+```jsx
+import { Ref, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
+
+interface OverlayControllerProps {
+  overlayElement: any;
+  onExit: () => void;
+}
+export interface OverlayControlRef {
+  close: () => void;
+}
+const OverlayController = forwardRef(function OverlayController(
+  { overlayElement: OverlayElement, onExit }: OverlayControllerProps,
+  ref: Ref<OverlayControlRef>,
+) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = useCallback(() => setIsOpen(false), []);
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return { close: handleClose };
+    },
+    [handleClose],
+  );
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      setIsOpen(true);
+    });
+  }, []);
+
+  return <OverlayElement isOpen={isOpen} close={handleClose} onExit={onExit} />;
+});
+
+export default OverlayController;
+```
+
+<Callout variant='primary'>
+
+훅으로 동작하기 때문에 컨트롤을 하기 위한 컴포넌트이고<br />
+현재 overlay가 open상태인지 close상태인지에 대한 상태값과 overlay요소에서 unMount를 할 수 있게
+매서드를 넘겨주는 역할을 합니다
+
+</Callout>
+
+React의 useImperativeHandle을 통해서 ref로 접근시에 close라는 매서드를 사용할 수 있도록 열어두어 외부에서 controller 컴포넌트의 open상태값을 변경할 수 있도록 하였습니다.
+그리고 전달 받았던 `overlayElement`에 현재 열려있는지에 대한 상태값,종료함수,삭제함수를 전달합니다<br/>
+`isOpen` `close` `onExit` 값들을 먼저 받아 커스텀 후에 넘겨줄 수도 있습니다<br/>
+
+<Callout variant='warn'>
+
+이해가 되지 않는다면 다음 내용과 같이 읽는다면 이해가 될 수 있어요!
+
+</Callout>
+
+### useOverlay(hook)
+
+```jsx
+import { useContext, useEffect, useId, useMemo, useRef } from 'react';
+import { OverlayContext } from './OverlayProvider';
+import OverlayController, { OverlayControlRef } from './OverlayController';
+
+const useOverlay = () => {
+  const context = useContext(OverlayContext);
+
+  if (context === null) {
+    throw new Error('not found provider');
+  }
+
+  const [id] = useId();
+
+  const { mount, unMount } = context;
+
+  const overlayRef = useRef < OverlayControlRef > null;
+
+  useEffect(() => {
+    return () => {
+      unMount(id);
+    };
+  }, [id, unMount]);
+
+  return useMemo(
+    () => ({
+      open: (overlayElement: any) => {
+        mount(
+          id,
+          <OverlayController
+            key={Date.now()}
+            ref={overlayRef}
+            overlayElement={overlayElement}
+            onExit={() => unMount(id)}
+          />,
+        );
+      },
+      close: () => {
+        overlayRef.current?.close();
+      },
+      exit: () => {
+        unMount(id);
+      },
+    }),
+    [id, mount, unMount],
+  );
+};
+
+export default useOverlay;
+```
+
+사용하게 될 `hook`입니다. 이전에 만들어 두었던 context 값을 가져오고
+저장할 id 값을 얻기 위해 `React`의 `useId`를 통해 유니크 키값을 얻습니다.
+
+context에서 overlay를 등록하고 삭제하는 매서드인 `mount` `unMount`를 가져옵니다
+그리고 Controller에서 관리하는 상태 값 변경을 하기 위해 접근하기 위한 ref를 만들어 줍니다
+
+`useOverlay`에서는 3개의 매서드를 Object 형태로 반환합니다.
+
+open매서드는 mount매서드를 통해 전달받은 `Element`를 id값과 이전에 만들었던 Controller컴포넌트를 통해 overlay할 컴포넌트를 등록하는 매서드입니다.
+
+close매서드는 Controller에서 열어두었던 close매서드를 ref를 통해 overlay컴포넌트를 닫는 매서드입니다.
+
+exit매서드는 unMount를 사용하여 context에 저장된 overlay를 완전히 삭제하는 매서드입니다
+
+사용방법은 다음과 같습니다.
+
+```jsx
+const overlay = useOverlay();
+
+const openOverlay = () => {
+  overlay.open(overlayElement);
+};
+```
+
+overlay할 컴포넌트에 `isOpen` `close` `onExit` 그대로 들어가도 된다면 이렇게 사용해도 무방하지만 추가로직을 넣어야한다면 다음과 같이 사용도 가능합니다
+
+```jsx
+const overlay = useOverlay();
+
+const openOverlay = () => {
+  overlay.open(({ isOpen, close, onEixt }) => (
+    <OverlayElement
+      open={isOpen}
+      closeAndExit={() => {
+        close();
+        onExit();
+      }}
+    />
+  ));
+};
+```
+
+slash 문서에는 Promise 예시가있는데 필자는 아직 Promise는 해보지 않았습니다.
+
+## 느낀점
+
+useOverlay를 뜯어보며 overlay들을 관리하는 방법과 Portal을 사용하지 않고 사용하는 방법에 대해서 알 게 된 것 같다
+제어할 수 있도록 Controller를 생성하여 제어하는 부분이 인상깊었다
+slash 라이브러리는 토스에서 사용하는 라이브러리 이므로 자주 찾아보고 어떻게 구현하였는지 살펴보면 좋을 것 같다.
