@@ -124,6 +124,7 @@ const Callout = (props: CalloutProps) => {
           borderRadius='10px'
           padding='10px 15px'
           margin='10px 0 20px 0'
+          alignItems='center'
           gap='10px'
           sx={{
             p: {
@@ -149,10 +150,10 @@ const Callout = (props: CalloutProps) => {
             </svg>
           </Box>
           <Flex>
-            <span>
+            <Text as='span'>
               {props.title && <span style={{ fontWeight: 'bold' }}>{props.title}</span>}
               {props.children}
-            </span>
+            </Text>
           </Flex>
         </Flex>
       );
