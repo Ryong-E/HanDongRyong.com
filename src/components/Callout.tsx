@@ -212,7 +212,10 @@ const Callout = (props: CalloutProps) => {
               />
             </svg> */}
           </Box>
-          <Box>{props.children}</Box>
+          <Box>
+            {props.title && <span style={{ fontWeight: 'bold' }}>{props.title}</span>}
+            {props.children}
+          </Box>
         </Flex>
       );
     }
