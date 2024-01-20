@@ -33,7 +33,7 @@ const Logo = () => {
           },
         }}
       >
-        Ryong⥾
+        Ryong
       </Text>
     </Link>
   );
