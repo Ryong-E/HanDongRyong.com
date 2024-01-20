@@ -75,7 +75,13 @@ const components = {
     return <Callout>{children}</Callout>;
   },
   p: (props: Object) => (
-    <Text fontSize={{ sm: '16px', md: '18px' }} mt='20px' lineHeight='1.8' {...props} />
+    <Text
+      fontSize={{ sm: '16px', md: '18px' }}
+      mt='20px'
+      wordBreak='keep-all'
+      lineHeight='1.8'
+      {...props}
+    />
   ),
 
   hr: (props: Object) => (
