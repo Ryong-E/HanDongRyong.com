@@ -3,7 +3,7 @@ import { Text } from '@chakra-ui/react';
 const About = () => {
   return (
     <a
-      href='https://ryong-e.notion.site/Resume-43dcf456de0046b184e4b74ecbddcffd?pvs=4'
+      href='https://www.rallit.com/hub/resumes/53083/%ED%95%9C%EB%8F%99%EB%A3%A1'
       target='_blank'
       rel='noreferrer'
     >
