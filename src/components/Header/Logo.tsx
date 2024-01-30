@@ -33,7 +33,7 @@ const Logo = () => {
           },
         }}
       >
-        Ryong
+        EAST-DRAGON
       </Text>
     </Link>
   );
