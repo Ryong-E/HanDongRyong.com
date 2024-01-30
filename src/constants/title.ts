@@ -3,4 +3,6 @@ export const CATEGORY_TANSLATE: { [key: string]: string } = {
   development: 'Development',
   retrospect: '회고',
   react: 'React',
+  devops: 'DevOps',
+  frontend: 'Frontend',
 };
