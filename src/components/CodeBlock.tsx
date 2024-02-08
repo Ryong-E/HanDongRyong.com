@@ -26,16 +26,19 @@ function CodeBlcok(children: any, className: any) {
             overflow: 'scroll',
           }}
         >
-          {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({ line, key: i })}>
-              <Text display='inline-block' opacity={0.3} userSelect='none' width='2em'>
-                {i + 1}
-              </Text>
-              {line.map((token, key) => (
-                <span key={key} {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
+          {tokens.map(
+            (line, i) =>
+              !line[0].empty && (
+                <div key={i} {...getLineProps({ line, key: i })}>
+                  <Text display='inline-block' opacity={0.3} userSelect='none' width='2em'>
+                    {i + 1}
+                  </Text>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token, key })} />
+                  ))}
+                </div>
+              ),
+          )}
         </pre>
       )}
     </Highlight>
