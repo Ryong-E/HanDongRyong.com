@@ -28,7 +28,7 @@ function CodeBlcok(children: any, className: any) {
         >
           {tokens.map(
             (line, i) =>
-              !line[0].empty && (
+              i + 1 !== tokens.length && (
                 <div key={i} {...getLineProps({ line, key: i })}>
                   <Text display='inline-block' opacity={0.3} userSelect='none' width='2em'>
                     {i + 1}
