@@ -9438,6 +9438,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gatsby-plugin-provide-react@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "gatsby-plugin-provide-react@npm:1.0.2"
+  peerDependencies:
+    gatsby: ">2.0.0"
+  checksum: 9280b01326941e8833d2d639872da035350039340b25d2811ea61a83e950f018c23f6b4c6dbe787ba1259825fa880c511eda8b61ae8e1a64959da34a77973047
+  languageName: node
+  linkType: hard
+
 "gatsby-plugin-robots-txt@npm:^1.8.0":
   version: 1.8.0
   resolution: "gatsby-plugin-robots-txt@npm:1.8.0"
@@ -10260,6 +10269,7 @@ __metadata:
     gatsby-plugin-manifest: ^5.7.0
     gatsby-plugin-mdx: ^5.7.0
     gatsby-plugin-netlify: ^5.1.1
+    gatsby-plugin-provide-react: ^1.0.2
     gatsby-plugin-robots-txt: ^1.8.0
     gatsby-plugin-root-import: ^2.0.9
     gatsby-plugin-sharp: ^5.7.0

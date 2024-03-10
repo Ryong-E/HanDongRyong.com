@@ -53,6 +53,7 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-plugin-root-import',
     'gatsby-transformer-sharp',
+    `gatsby-plugin-provide-react`,
     {
       resolve: 'gatsby-source-filesystem',
       options: {

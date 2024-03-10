@@ -4,15 +4,6 @@ const AllPostTemplate = resolve('./src/templates/AllPostTemplate.tsx');
 const PostPage = resolve('./src/templates/PostPage.tsx');
 const CategoryTemplate = resolve('./src/templates/CategoryTemplate.tsx');
 
-exports.onCreateBabelConfig = ({ actions }) => {
-  actions.setBabelPlugin({
-    name: '@babel/plugin-transform-react-jsx',
-    options: {
-      runtime: 'automatic',
-    },
-  });
-};
-
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const result = await graphql(`
